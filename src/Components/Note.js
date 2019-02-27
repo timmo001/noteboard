@@ -1,42 +1,78 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Draggable from "react-draggable";
 
-const styles = () => ({});
+const styles = () => ({
+  noteContainer: {
+    width: "100%",
+    paddingTop: "100%" /* 1:1 Aspect Ratio */,
+    position: "relative" /* If you want text inside of it */
+  },
+  note: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  }
+});
 
 class Note extends React.PureComponent {
-  state = {};
+  state = { dragging: false };
+
+  handleDrag = () => this.setState({ dragging: true });
 
   handleStop = (_e, data) => {
+    this.setState({ dragging: false });
     let { note } = this.props;
     note.x = data.x;
     note.y = data.y;
     this.props.updateNote(note);
   };
+
   render() {
     const { classes, note } = this.props;
+    const { dragging } = this.state;
 
     return (
-      <Grid item xs={4} md={3} lg={2} xl={2}>
-        <Draggable
-          defaultPosition={{ x: note.x, y: note.y }}
-          onDrag={this.handleDrag}
-          onStop={this.handleStop}
+      <Draggable
+        defaultPosition={{ x: note.x, y: note.y }}
+        onDrag={this.handleDrag}
+        onStop={this.handleStop}
+      >
+        <div
+          style={{
+            width: note.size
+          }}
         >
-          <Card className={classes.note}>
-            <CardContent>
-              <Typography component="span" variant="body1">
-                {note.note}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Draggable>
-      </Grid>
+          <div className={classes.noteContainer}>
+            <Card
+              className={classes.note}
+              elevation={dragging ? 3 : 1}
+              style={{
+                background: note.background || "#FFFF88"
+              }}
+            >
+              <CardContent>
+                <Typography
+                  component="span"
+                  variant="body1"
+                  style={{
+                    color: note.text.color || "#000000",
+                    fontSize: `${note.text.size / 10}em` || "12em"
+                  }}
+                >
+                  {note.note}
+                </Typography>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </Draggable>
     );
   }
 }

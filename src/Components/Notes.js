@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Grid from "@material-ui/core/Grid";
 import Note from "./Note";
 
 const styles = () => ({
@@ -17,16 +16,12 @@ class Notes extends React.PureComponent {
   render() {
     const { classes, notes, updateNote } = this.props;
 
-    return (
-      <Grid container>
-        {notes ? (
-          notes.map((note, id) => (
-            <Note key={id} note={note} updateNote={updateNote} />
-          ))
-        ) : (
-          <CircularProgress className={classes.progress} />
-        )}
-      </Grid>
+    return notes ? (
+      notes.map((note, id) => (
+        <Note key={id} note={note} updateNote={updateNote} />
+      ))
+    ) : (
+      <CircularProgress className={classes.progress} />
     );
   }
 }

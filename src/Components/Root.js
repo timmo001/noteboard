@@ -23,12 +23,24 @@ class Root extends React.PureComponent {
       {
         note: "Hello World!",
         x: 100,
-        y: 200
+        y: 200,
+        background: "#FFFF88",
+        size: 180,
+        text: {
+          color: "#000000",
+          size: "15"
+        }
       },
       {
         note: "Hello!",
         x: 300,
-        y: 140
+        y: 140,
+        background: "#FF6D00",
+        size: 200,
+        text: {
+          color: "#000000",
+          size: "12"
+        }
       }
     ]
   };
