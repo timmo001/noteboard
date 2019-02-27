@@ -1,0 +1,37 @@
+{
+  "name": "noteboard",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Timmo <contact@timmo.xyz> (https://git.timmo.xyz)",
+  "dependencies": {
+    "@material-ui/core": "3.9.2",
+    "@material-ui/icons": "3.0.2",
+    "@material-ui/lab": "3.0.0-alpha.30",
+    "@mdi/font": "3.4.93",
+    "classnames": "2.2.6",
+    "moment": "2.24.0",
+    "prop-types": "15.7.1",
+    "react": "16.8.3",
+    "react-autolink-text2": "3.2.0",
+    "react-dom": "16.8.1",
+    "react-draggable": "3.1.1",
+    "react-moment": "0.8.4",
+    "react-scripts": "2.1.4",
+    "react-sound": "1.2.0",
+    "superagent": "4.1.0",
+    "typeface-roboto": "0.0.54"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "eslint": "eslint -c .eslintrc.json --color src"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

@@ -1,0 +1,15 @@
+---
+version: "3"
+
+services:
+  noteboard:
+    image: timmo001/noteboard:edge
+    environment:
+      SSL_CERTFILE: fullchain.pem
+      SSL_KEYFILE: privkey.pem
+    ports:
+      - 3234:3234
+      - 8234:8234
+    volumes:
+      - ~/ssl/fullchain.pem:/ssl/fullchain.pem
+      - ~/ssl/privkey.pem:/ssl/privkey.pem

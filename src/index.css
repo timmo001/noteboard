@@ -1,0 +1,41 @@
+html, body {
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+a {
+  transition: color .4s;
+  color: #E0E0E0;
+  text-decoration: none;
+}
+
+a:link, a:visited {
+  color: #E0E0E0;
+}
+
+a:hover {
+  color: #BDBDBD;
+}
+
+a:active {
+  transition: color .3s;
+  color: #BDBDBD;
+}
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #757575; 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: #616161; 
+}
