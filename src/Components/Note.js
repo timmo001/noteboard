@@ -42,21 +42,18 @@ class Note extends React.PureComponent {
       <Draggable
         defaultPosition={{ x: note.x, y: note.y }}
         onDrag={this.handleDrag}
-        onStop={this.handleStop}
-      >
+        onStop={this.handleStop}>
         <div
           style={{
             width: note.size
-          }}
-        >
+          }}>
           <div className={classes.noteContainer}>
             <Card
               className={classes.note}
               elevation={dragging ? 3 : 1}
               style={{
                 background: note.background || "#FFFF88"
-              }}
-            >
+              }}>
               <CardContent>
                 <Typography
                   component="span"
@@ -64,8 +61,7 @@ class Note extends React.PureComponent {
                   style={{
                     color: note.text.color || "#000000",
                     fontSize: `${note.text.size / 10}em` || "12em"
-                  }}
-                >
+                  }}>
                   {note.note}
                 </Typography>
               </CardContent>
