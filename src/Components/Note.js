@@ -45,7 +45,7 @@ class Note extends React.PureComponent {
         onStop={this.handleStop}>
         <div
           style={{
-            width: note.size
+            width: note.size || 180
           }}>
           <div className={classes.noteContainer}>
             <Card
@@ -62,7 +62,7 @@ class Note extends React.PureComponent {
                     color: note.text.color || '#000000',
                     fontSize: `${note.text.size / 10}em` || '12em'
                   }}>
-                  {note.note}
+                  {note.text}
                 </Typography>
               </CardContent>
             </Card>
