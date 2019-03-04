@@ -22,35 +22,13 @@ const styles = theme => ({
   }
 });
 
+const app = feathers();
+
 class Root extends React.PureComponent {
   state = {
     snackMessage: { open: false, text: '' },
     connected: false,
-    loggedIn: false,
-    notes: [
-      {
-        note: 'Hello World!',
-        x: 100,
-        y: 200,
-        background: '#FFFF88',
-        size: 180,
-        text: {
-          color: '#000000',
-          size: '15'
-        }
-      },
-      {
-        note: 'Hello!',
-        x: 300,
-        y: 140,
-        background: '#FF6D00',
-        size: 200,
-        text: {
-          color: '#000000',
-          size: '12'
-        }
-      }
-    ]
+    loggedIn: false
   };
 
   componentDidMount = () => {
@@ -75,7 +53,6 @@ class Root extends React.PureComponent {
       `${window.location.protocol}//${window.location.hostname}:${process.env
         .REACT_APP_API_PORT || 3030}`
     );
-    const app = feathers();
 
     // Setup the transport (Rest, Socket, etc.) here
     app.configure(socketio(socket));
@@ -86,21 +63,33 @@ class Root extends React.PureComponent {
     if (!data)
       app.passport.getJWT().then(accessToken => {
         accessToken &&
-          this.authenticate(app, {
+          this.authenticate({
             strategy: 'jwt',
             accessToken
           });
       });
-    else this.authenticate(app, data);
+    else this.authenticate(data);
   };
 
-  authenticate = (app, data) =>
+  authenticate = data =>
     app
       .authenticate(data)
       .then(response => {
-        console.log('Authenticated!', response);
-        app.passport.verifyJWT(response.accessToken);
+        process.env.NODE_ENV === 'development' &&
+          console.log('Authenticated:', response);
+        return app.passport.verifyJWT(response.accessToken);
+      })
+      .then(payload => {
+        process.env.NODE_ENV === 'development' &&
+          console.log('JWT Payload:', payload);
+        return app.service('users').get(payload.userId);
+      })
+      .then(user => {
+        app.set('user', user);
+        process.env.NODE_ENV === 'development' &&
+          console.log('User:', app.get('user'));
         this.setState({ loggedIn: true });
+        this.getNotes();
       })
       .catch(e => {
         console.error('Authentication error:', e);
@@ -111,6 +100,16 @@ class Root extends React.PureComponent {
           )
         );
       });
+
+  getNotes = async () => {
+    const notes = [];
+    const getter = await app.service('notes').find();
+    getter.data.forEach(note => {
+      notes.push(note);
+    });
+    process.env.NODE_ENV === 'development' && console.log('Notes:', notes);
+    this.setState({ notes });
+  };
 
   updateNote = note => console.log('Update Note:', note);
 

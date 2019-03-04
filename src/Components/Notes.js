@@ -28,8 +28,8 @@ class Notes extends React.PureComponent {
 
 Notes.propTypes = {
   classes: PropTypes.object.isRequired,
-  notes: PropTypes.array.isRequired,
-  updateNote: PropTypes.func.isRequired
+  updateNote: PropTypes.func.isRequired,
+  notes: PropTypes.array
 };
 
 export default withStyles(styles)(Notes);
