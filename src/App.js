@@ -21,6 +21,7 @@ var themes = [
       primary: blueGrey,
       secondary: grey,
       background: grey[100],
+      card: grey[200],
       error: red
     }
   },
@@ -32,6 +33,7 @@ var themes = [
       primary: blueGrey,
       secondary: grey,
       background: grey[900],
+      card: grey[800],
       error: red
     }
   },
@@ -43,6 +45,7 @@ var themes = [
       primary: pink,
       secondary: pink,
       background: '#383c45',
+      card: grey[800],
       error: red
     }
   }
