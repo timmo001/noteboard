@@ -79,7 +79,7 @@ LABEL \
     org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.name="Noteboard" \
     org.label-schema.schema-version="1.0" \
-    org.label-schema.url="https://git.timmo.xyz/noteboard" \
+    org.label-schema.url="https://timmo.dev/noteboard" \
     org.label-schema.usage="https://github.com/timmo001/noteboard/tree/master/README.md" \
     org.label-schema.vcs-ref=${BUILD_REF} \
     org.label-schema.vcs-url="https://github.com/timmo001/noteboard" \

@@ -1,7 +1,7 @@
 ---
 repository:
   description: "Lorem ipsum."
-  homepage: https://git.timmo.xyz/noteboard/
+  homepage: https://timmo.dev/noteboard/
   topics: noteboard, home-automation, javascript, reactjs, websocket, hass, user-interface, webapp, material-design
   private: false
   has_issues: true
