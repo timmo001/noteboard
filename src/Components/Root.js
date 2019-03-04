@@ -94,8 +94,7 @@ class Root extends React.PureComponent {
     else this.authenticate(app, data);
   };
 
-  authenticate = (app, data) => {
-    console.log(data);
+  authenticate = (app, data) =>
     app
       .authenticate(data)
       .then(response => {
@@ -112,7 +111,6 @@ class Root extends React.PureComponent {
           )
         );
       });
-  };
 
   updateNote = note => console.log('Update Note:', note);
 
