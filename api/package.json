@@ -47,7 +47,7 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
-    "eslint": "5.15.0",
+    "eslint": "5.15.1",
     "mocha": "5.2.0",
     "nodemon": "1.18.10",
     "request": "2.88.0",
