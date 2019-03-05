@@ -6,9 +6,9 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@feathersjs/authentication-client": "^1.0.11",
-    "@feathersjs/feathers": "^3.3.1",
-    "@feathersjs/socketio-client": "^1.2.1",
+    "@feathersjs/authentication-client": "1.0.11",
+    "@feathersjs/feathers": "3.3.1",
+    "@feathersjs/socketio-client": "1.2.1",
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",
     "@material-ui/lab": "3.0.0-alpha.30",
@@ -23,8 +23,8 @@
     "react-moment": "0.8.4",
     "react-scripts": "2.1.4",
     "react-sound": "1.2.0",
-    "socket.io-client": "^2.2.0",
-    "suncalc": "^1.8.0",
+    "socket.io-client": "2.2.0",
+    "suncalc": "1.8.0",
     "superagent": "4.1.0",
     "typeface-roboto": "0.0.54"
   },
