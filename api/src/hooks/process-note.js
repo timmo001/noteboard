@@ -13,9 +13,6 @@ module.exports = function(_options = {}) {
     // Throw an error if we didn't get a y position
     if (!y) throw new Error('A note must have a y position');
 
-    // Throw an error if we didn't get any text
-    if (!text) throw new Error('A note must have text');
-
     // Number validation
     if (!Number.isInteger(x))
       throw new Error('The x position must be a number');
