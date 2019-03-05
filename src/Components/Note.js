@@ -59,8 +59,8 @@ class Note extends React.PureComponent {
                   component="span"
                   variant="body1"
                   style={{
-                    color: note.text.color || '#000000',
-                    fontSize: `${note.text.size / 10}em` || '12em'
+                    color: note.color || '#000000',
+                    fontSize: `${note.size / 10}em` || '12em'
                   }}>
                   {note.text}
                 </Typography>
