@@ -21,7 +21,8 @@ module.exports = function(_options = {}) {
       throw new Error('The x position must be a number');
     if (!Number.isInteger(y))
       throw new Error('The y position must be a number');
-    if (!Number.isInteger(size)) throw new Error('The size must be a number');
+    if (size && !Number.isInteger(size))
+      throw new Error('The size must be a number');
 
     // The authenticated user
     const user = context.params.user;
