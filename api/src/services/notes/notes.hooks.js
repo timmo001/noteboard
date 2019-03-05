@@ -4,14 +4,16 @@ const processNote = require('../../hooks/process-note');
 
 const populateUser = require('../../hooks/populate-user');
 
+const processNoteUpdate = require('../../hooks/process-note-update');
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [processNote()],
-    update: [],
-    patch: [],
+    update: [processNoteUpdate()],
+    patch: [processNoteUpdate()],
     remove: []
   },
 
