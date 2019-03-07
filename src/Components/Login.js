@@ -174,6 +174,7 @@ class Login extends React.PureComponent {
           email,
           password
         });
+        setTimeout(() => this.setState({ loading: false }), 1000);
       }
     });
   };
