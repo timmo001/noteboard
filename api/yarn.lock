@@ -1602,6 +1602,16 @@ feathers-errors@^2.5.0:
   dependencies:
     debug "^3.0.0"
 
+feathers-memory@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/feathers-memory/-/feathers-memory-3.0.2.tgz#f6e8128ff8939d74930c2771ff0c4c20f04d6b88"
+  integrity sha512-GlSYSlIgN5BhvGaCi2AMaltteJvmCOoA5u9j1dIwnwWveF4586TLGsUKu1CASisva5DVczDlmIltq+GJpO6D7w==
+  dependencies:
+    "@feathersjs/adapter-commons" "^2.0.0"
+    "@feathersjs/commons" "^4.0.0"
+    "@feathersjs/errors" "^3.3.6"
+    sift "^7.0.1"
+
 feathers-nedb@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/feathers-nedb/-/feathers-nedb-4.0.1.tgz#51985b2e2e4d274d626f985741081ab97b21bafc"
@@ -4014,6 +4024,11 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
   integrity sha1-2kL0l0DAtC2yypcoVxyxkMmO/qM=
+
+sift@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/sift/-/sift-7.0.1.tgz#47d62c50b159d316f1372f8b53f9c10cd21a4b08"
+  integrity sha512-oqD7PMJ+uO6jV9EQCl0LrRw1OwsiPsiFQR5AR30heR+4Dl7jBBbDLnNvWiak20tzZlSE1H7RB30SX/1j/YYT7g==
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
