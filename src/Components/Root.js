@@ -115,46 +115,60 @@ class Root extends React.PureComponent {
 
   getNotes = async () => {
     const notes = [];
-    const getter = await app.service('notes').find();
+    const notesService = await app.service('notes');
+    const getter = await notesService.find();
     getter.data.forEach(note => {
       notes.push(note);
     });
     process.env.NODE_ENV === 'development' && console.log('Notes:', notes);
     this.setState({ notes });
+    notesService.on('created', note => this.addToNotes(note));
+    notesService.on('updated', note => this.updateNote(note, false));
+    notesService.on('patched', note => this.updateNote(note, false));
   };
 
-  updateNote = noteIn => {
+  addToNotes = note => {
+    const notes = clone(this.state.notes);
+    notes.push(note);
+    this.setState({ notes });
+  };
+
+  updateNote = (noteIn, updateServer) => {
     const note = clone(noteIn);
     const id = clone(note._id);
     delete note._id;
     delete note.user;
     delete note.userId;
     process.env.NODE_ENV === 'development' &&
-      console.log('Update Note:', id, note);
-    socket.emit('patch', 'notes', id, note, (error, note) => {
-      if (error) {
-        process.env.NODE_ENV === 'development' &&
-          console.error('Error updating', id, ':', error);
-        // this.setState({
-        //   snackMessage: {
-        //     open: true,
-        //     error: true,
-        //     persistent: false,
-        //     text: `Error updating: ${error}`
-        //   }
-        // });
-      } else {
-        process.env.NODE_ENV === 'development' &&
-          console.log('Updated Note:', id, note);
-        // this.setState({
-        //   snackMessage: {
-        //     open: true,
-        //     persistent: false,
-        //     text: 'Updated Note'
-        //   }
-        // });
-      }
-    });
+      console.log('Update Note:', updateServer, id, note);
+    const notes = clone(this.state.notes);
+    notes[notes.findIndex(n => n._id === id)] = noteIn;
+    this.setState({ notes }, () => console.log('New notes:', notes));
+    if (updateServer)
+      socket.emit('patch', 'notes', id, note, (error, note) => {
+        if (error) {
+          process.env.NODE_ENV === 'development' &&
+            console.error('Error updating', id, ':', error);
+          // this.setState({
+          //   snackMessage: {
+          //     open: true,
+          //     error: true,
+          //     persistent: false,
+          //     text: `Error updating: ${error}`
+          //   }
+          // });
+        } else {
+          process.env.NODE_ENV === 'development' &&
+            console.log('Updated Note:', id, note);
+          // this.setState({
+          //   snackMessage: {
+          //     open: true,
+          //     persistent: false,
+          //     text: 'Updated Note'
+          //   }
+          // });
+        }
+      });
   };
 
   render() {
