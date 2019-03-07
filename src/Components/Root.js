@@ -121,7 +121,8 @@ class Root extends React.PureComponent {
     this.setState({ notes });
   };
 
-  updateNote = note => {
+  updateNote = noteIn => {
+    const note = clone(noteIn);
     const id = clone(note._id);
     delete note._id;
     delete note.user;
