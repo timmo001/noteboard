@@ -101,7 +101,7 @@ class Note extends React.PureComponent {
     let { note } = this.props;
     note.x = data.x;
     note.y = data.y;
-    this.props.updateNote(note);
+    this.props.updateNote(note, true);
   };
 
   toggleEditable = () =>
@@ -144,7 +144,7 @@ class Note extends React.PureComponent {
     console.log('secondLastItem:', secondLastItem);
     secondLastItem[lastItem] = value;
     this.setState({ editableNote: note });
-    this.props.updateNote(note);
+    this.props.updateNote(note, true);
   };
 
   changeText = event => this.noteChange(['text'], event.target.value);
@@ -172,7 +172,7 @@ class Note extends React.PureComponent {
 
     return (
       <Draggable
-        defaultPosition={{ x: note.x, y: note.y }}
+        position={{ x: note.x, y: note.y }}
         disabled={editable}
         onDrag={this.handleDrag}
         onStop={this.handleStop}>
