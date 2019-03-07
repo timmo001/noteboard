@@ -2,7 +2,7 @@ const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
 const processNote = require('../../src/hooks/process-note');
 
-describe('process-note hook', () => {
+describe('process-note-update hook', () => {
   let app;
 
   beforeEach(() => {
