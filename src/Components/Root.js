@@ -23,6 +23,16 @@ const styles = theme => ({
 });
 
 const app = feathers();
+const socket = io(
+  `${window.location.protocol}//${window.location.hostname}:${process.env
+    .REACT_APP_API_PORT || 3030}`
+);
+
+// Setup the transport (Rest, Socket, etc.) here
+app.configure(socketio(socket));
+
+// Available options are listed in the "Options" section
+app.configure(auth({ storage: localStorage }));
 
 class Root extends React.PureComponent {
   state = {
@@ -49,17 +59,6 @@ class Root extends React.PureComponent {
       : this.props.setTheme(0);
 
   login = (data = undefined) => {
-    const socket = io(
-      `${window.location.protocol}//${window.location.hostname}:${process.env
-        .REACT_APP_API_PORT || 3030}`
-    );
-
-    // Setup the transport (Rest, Socket, etc.) here
-    app.configure(socketio(socket));
-
-    // Available options are listed in the "Options" section
-    app.configure(auth({ storage: localStorage }));
-
     if (!data)
       app.passport.getJWT().then(accessToken => {
         accessToken &&
