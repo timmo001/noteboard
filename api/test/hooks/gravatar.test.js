@@ -2,26 +2,36 @@ const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
 const gravatar = require('../../src/hooks/gravatar');
 
-describe('\'gravatar\' hook', () => {
+describe('gravatar hook', () => {
   let app;
 
   beforeEach(() => {
     app = feathers();
 
-    app.use('/dummy', {
-      async get(id) {
-        return { id };
+    // A dummy users service for testing
+    app.use('/users', {
+      async create(data) {
+        return data;
       }
     });
 
-    app.service('dummy').hooks({
-      before: gravatar()
+    // Add the hook to the dummy service
+    app.service('users').hooks({
+      before: {
+        create: gravatar()
+      }
     });
   });
 
-  it('runs the hook', async () => {
-    const result = await app.service('dummy').get('test');
-    
-    assert.deepEqual(result, { id: 'test' });
+  it('creates a gravatar link from the users email', async () => {
+    const user = await app.service('users').create({
+      email: 'test@example.com'
+    });
+
+    assert.deepEqual(user, {
+      email: 'test@example.com',
+      avatar:
+        'https://s.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?s=60'
+    });
   });
 });
