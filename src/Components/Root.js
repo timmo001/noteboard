@@ -6,8 +6,11 @@ import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client';
 import io from 'socket.io-client';
 import auth from '@feathersjs/authentication-client';
+import red from '@material-ui/core/colors/red';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Snackbar from '@material-ui/core/Snackbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import clone from './Common/clone';
 import Login from './Login';
 import Notes from './Notes';
 
@@ -19,6 +22,11 @@ const styles = theme => ({
     maxHeight: '100%',
     maxWidth: '100%',
     background: theme.palette.background
+  },
+  progress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%'
   }
 });
 
@@ -38,6 +46,7 @@ class Root extends React.PureComponent {
   state = {
     snackMessage: { open: false, text: '' },
     connected: false,
+    loginAttempted: false,
     loggedIn: false
   };
 
@@ -59,6 +68,7 @@ class Root extends React.PureComponent {
       : this.props.setTheme(0);
 
   login = (data = undefined) => {
+    process.env.NODE_ENV === 'development' && console.log('login:', data);
     if (!data)
       app.passport.getJWT().then(accessToken => {
         accessToken &&
@@ -68,6 +78,7 @@ class Root extends React.PureComponent {
           });
       });
     else this.authenticate(data);
+    setTimeout(() => this.setState({ loginAttempted: true }), 500);
   };
 
   authenticate = data =>
@@ -111,23 +122,53 @@ class Root extends React.PureComponent {
   };
 
   updateNote = note => {
-    const id = note._id;
+    const id = clone(note._id);
     delete note._id;
     delete note.user;
     delete note.userId;
-    process.env.NODE_ENV === 'development' && console.log('Update Note:', note);
+    process.env.NODE_ENV === 'development' &&
+      console.log('Update Note:', id, note);
     socket.emit('patch', 'notes', id, note, (error, note) => {
-      console.log('Patched:', note);
+      if (error) {
+        process.env.NODE_ENV === 'development' &&
+          console.error('Error updating', id, ':', error);
+        // this.setState({
+        //   snackMessage: {
+        //     open: true,
+        //     error: true,
+        //     persistent: false,
+        //     text: `Error updating: ${error}`
+        //   }
+        // });
+      } else {
+        process.env.NODE_ENV === 'development' &&
+          console.log('Updated Note:', id, note);
+        // this.setState({
+        //   snackMessage: {
+        //     open: true,
+        //     persistent: false,
+        //     text: 'Updated Note'
+        //   }
+        // });
+      }
     });
   };
 
   render() {
     const { classes } = this.props;
-    const { snackMessage, loggedIn, loginError, notes } = this.state;
+    const {
+      snackMessage,
+      loginAttempted,
+      loggedIn,
+      loginError,
+      notes
+    } = this.state;
 
     return (
       <div className={classes.root}>
-        {loggedIn ? (
+        {!loginAttempted ? (
+          <CircularProgress className={classes.progress} />
+        ) : loggedIn ? (
           <Notes notes={notes} updateNote={this.updateNote} />
         ) : (
           <Login login={this.login} loginError={loginError} />
@@ -144,6 +185,7 @@ class Root extends React.PureComponent {
           ContentProps={{
             'aria-describedby': 'message-id'
           }}
+          style={{ backgroundColor: snackMessage.error && red[500] }}
           message={<span id="message-id">{snackMessage.text}</span>}
           action={snackMessage.actions}
         />
