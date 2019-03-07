@@ -110,7 +110,16 @@ class Root extends React.PureComponent {
     this.setState({ notes });
   };
 
-  updateNote = note => console.log('Update Note:', note);
+  updateNote = note => {
+    const id = note._id;
+    delete note._id;
+    delete note.user;
+    delete note.userId;
+    process.env.NODE_ENV === 'development' && console.log('Update Note:', note);
+    socket.emit('patch', 'notes', id, note, (error, note) => {
+      console.log('Patched:', note);
+    });
+  };
 
   render() {
     const { classes } = this.props;
