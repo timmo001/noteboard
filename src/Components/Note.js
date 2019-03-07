@@ -5,11 +5,13 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
+import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import clone from './Common/clone';
 
 const styles = () => ({
   noteContainer: {
@@ -50,7 +52,11 @@ class Note extends React.PureComponent {
     this.props.updateNote(note);
   };
 
-  toggleEditable = () => this.setState({ editable: !this.state.editable });
+  toggleEditable = () =>
+    this.setState({
+      editable: !this.state.editable,
+      editableNote: this.props.note
+    });
 
   showControls = () => {
     if (!this.state.dragging && !this.state.controlsEntered)
@@ -78,13 +84,27 @@ class Note extends React.PureComponent {
     this.timeoutControls();
   };
 
+  noteChange = (path, value) => {
+    let note = clone(this.state.editableNote);
+    const lastItem = path.pop();
+    let secondLastItem = path.reduce((o, k) => (o[k] = o[k] || {}), note);
+    console.log('lastItem:', lastItem);
+    console.log('secondLastItem:', secondLastItem);
+    secondLastItem[lastItem] = value;
+    this.setState({ editableNote: note });
+    this.props.updateNote(note);
+  };
+
+  textChange = event => this.noteChange(['text'], event.target.value);
+
   render() {
     const { classes, note } = this.props;
-    const { dragging, controls, editable } = this.state;
+    const { dragging, controls, editable, editableNote } = this.state;
 
     return (
       <Draggable
         defaultPosition={{ x: note.x, y: note.y }}
+        disabled={editable}
         onDrag={this.handleDrag}
         onStop={this.handleStop}>
         <div
@@ -102,10 +122,11 @@ class Note extends React.PureComponent {
               }}>
               <CardContent>
                 {editable ? (
-                  <TextField
+                  <InputBase
                     className={classes.textField}
                     multiline
-                    defaultValue={note.text}
+                    value={editableNote.text}
+                    onChange={this.textChange}
                     style={{
                       color: note.color || '#000000',
                       fontSize: `${note.size / 10}em` || '12em'
@@ -137,7 +158,11 @@ class Note extends React.PureComponent {
                 aria-label="Edit"
                 className={classes.margin}
                 onClick={this.toggleEditable}>
-                <EditIcon fontSize="small" />
+                {editable ? (
+                  <DoneIcon fontSize="small" />
+                ) : (
+                  <EditIcon fontSize="small" />
+                )}
               </IconButton>
             </div>
           </Grow>
