@@ -26,6 +26,9 @@ const styles = () => ({
     bottom: 0,
     right: 0
   },
+  textField: {
+    padding: 0
+  },
   controls: {
     position: 'absolute',
     display: 'flex',
