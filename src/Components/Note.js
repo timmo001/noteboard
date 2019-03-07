@@ -8,12 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
+import { SketchPicker } from 'react-color';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import PaletteIcon from '@material-ui/icons/Palette';
 import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
 import FormatSizeIcon from '@material-ui/icons/FormatSize';
 import DeleteIcon from '@material-ui/icons/Delete';
+
 import clone from './Common/clone';
 
 const styles = () => ({
@@ -50,11 +52,43 @@ const styles = () => ({
   icon: {
     height: 42,
     width: 42
+  },
+  colorPicker: {
+    position: 'fixed',
+    top: 42,
+    left: 42,
+    zIndex: 1000
   }
 });
 
+const pickerColors = [
+  '#f44336',
+  '#e91e63',
+  '#9c27b0',
+  '#673ab7',
+  '#3f51b5',
+  '#2196f3',
+  '#03a9f4',
+  '#00bcd4',
+  '#009688',
+  '#4caf50',
+  '#8bc34a',
+  '#cddc39',
+  '#ffeb3b',
+  '#ffc107',
+  '#ff9800',
+  '#ff5722',
+  '#795548',
+  '#607d8b'
+];
+
 class Note extends React.PureComponent {
-  state = { dragging: false, controls: false, editable: false };
+  state = {
+    dragging: false,
+    controls: false,
+    editable: false,
+    showColorPicker: false
+  };
   timeout;
 
   handleDrag = () => {
@@ -115,9 +149,26 @@ class Note extends React.PureComponent {
 
   changeText = event => this.noteChange(['text'], event.target.value);
 
+  changeColor = () =>
+    this.setState({ showColorPicker: !this.state.showColorPicker });
+
+  colorChanged = color => this.noteChange(['background'], color.hex);
+
+  changeTextColor = () =>
+    this.setState({ showTextColorPicker: !this.state.showTextColorPicker });
+
+  colorTextChanged = color => this.noteChange(['color'], color.hex);
+
   render() {
     const { classes, note } = this.props;
-    const { dragging, controls, editable, editableNote } = this.state;
+    const {
+      dragging,
+      controls,
+      editable,
+      editableNote,
+      showColorPicker,
+      showTextColorPicker
+    } = this.state;
 
     return (
       <Draggable
@@ -127,7 +178,7 @@ class Note extends React.PureComponent {
         onStop={this.handleStop}>
         <div
           style={{
-            width: note.size || 180
+            width: editable ? editableNote.size || 180 : note.size || 180
           }}>
           <div
             className={classes.noteContainer}
@@ -136,7 +187,9 @@ class Note extends React.PureComponent {
               className={classes.note}
               elevation={dragging ? 3 : 1}
               style={{
-                background: note.background || '#FFFF88'
+                background: editable
+                  ? editableNote.background || '#FFFF88'
+                  : note.background || '#FFFF88'
               }}>
               <CardContent>
                 {editable ? (
@@ -146,8 +199,8 @@ class Note extends React.PureComponent {
                     value={editableNote.text}
                     onChange={this.changeText}
                     style={{
-                      color: note.color || '#000000',
-                      fontSize: `${note.size / 10}em` || '12em'
+                      color: editableNote.color || '#000000',
+                      fontSize: `${editableNote.size / 10}em` || '12em'
                     }}
                   />
                 ) : (
@@ -167,11 +220,6 @@ class Note extends React.PureComponent {
           <Grow in={controls}>
             <div
               className={classes.controls}
-              style={
-                {
-                  // right: editable ? -96 : -48
-                }
-              }
               onMouseEnter={this.handleEnterControls}
               onMouseLeave={this.handleExitControls}>
               <IconButton
@@ -190,22 +238,38 @@ class Note extends React.PureComponent {
                     <div className={classes.editControls}>
                       <IconButton
                         className={classes.icon}
-                        aria-label="Color"
-                        onClick={this.changeColor}>
-                        <PaletteIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        className={classes.icon}
                         aria-label="Note Size"
                         onClick={this.changeNoteSize}>
                         <PhotoSizeSelectSmallIcon fontSize="small" />
                       </IconButton>
                       <IconButton
                         className={classes.icon}
+                        aria-label="Color"
+                        onClick={this.changeColor}>
+                        <PaletteIcon fontSize="small" />
+                      </IconButton>
+                      {showColorPicker && (
+                        <SketchPicker
+                          className={classes.colorPicker}
+                          color={editableNote.background}
+                          colors={pickerColors}
+                          onChangeComplete={this.colorChanged}
+                        />
+                      )}
+                      <IconButton
+                        className={classes.icon}
                         aria-label="Text Size"
                         onClick={this.changeTextSize}>
                         <FormatSizeIcon fontSize="small" />
                       </IconButton>
+                      {showTextColorPicker && (
+                        <SketchPicker
+                          className={classes.colorPicker}
+                          color={editableNote.color}
+                          colors={pickerColors}
+                          onChangeComplete={this.colorTextChanged}
+                        />
+                      )}
                     </div>
                     <div
                       className={classes.editControls}
