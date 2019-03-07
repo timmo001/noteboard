@@ -1602,7 +1602,7 @@ feathers-errors@^2.5.0:
   dependencies:
     debug "^3.0.0"
 
-feathers-memory@^3.0.2:
+feathers-memory@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/feathers-memory/-/feathers-memory-3.0.2.tgz#f6e8128ff8939d74930c2771ff0c4c20f04d6b88"
   integrity sha512-GlSYSlIgN5BhvGaCi2AMaltteJvmCOoA5u9j1dIwnwWveF4586TLGsUKu1CASisva5DVczDlmIltq+GJpO6D7w==
