@@ -10,6 +10,9 @@ import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
+import PaletteIcon from '@material-ui/icons/Palette';
+import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
+import FormatSizeIcon from '@material-ui/icons/FormatSize';
 import DeleteIcon from '@material-ui/icons/Delete';
 import clone from './Common/clone';
 
@@ -35,6 +38,18 @@ const styles = () => ({
     flexDirection: 'column',
     top: 0,
     right: -48
+  },
+  editControlsContainer: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  editControls: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  icon: {
+    height: 42,
+    width: 42
   }
 });
 
@@ -98,7 +113,7 @@ class Note extends React.PureComponent {
     this.props.updateNote(note);
   };
 
-  textChange = event => this.noteChange(['text'], event.target.value);
+  changeText = event => this.noteChange(['text'], event.target.value);
 
   render() {
     const { classes, note } = this.props;
@@ -129,7 +144,7 @@ class Note extends React.PureComponent {
                     className={classes.textField}
                     multiline
                     value={editableNote.text}
-                    onChange={this.textChange}
+                    onChange={this.changeText}
                     style={{
                       color: note.color || '#000000',
                       fontSize: `${note.size / 10}em` || '12em'
@@ -152,14 +167,16 @@ class Note extends React.PureComponent {
           <Grow in={controls}>
             <div
               className={classes.controls}
+              style={
+                {
+                  // right: editable ? -96 : -48
+                }
+              }
               onMouseEnter={this.handleEnterControls}
               onMouseLeave={this.handleExitControls}>
-              <IconButton aria-label="Delete" className={classes.margin}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
               <IconButton
+                className={classes.icon}
                 aria-label="Edit"
-                className={classes.margin}
                 onClick={this.toggleEditable}>
                 {editable ? (
                   <DoneIcon fontSize="small" />
@@ -167,6 +184,42 @@ class Note extends React.PureComponent {
                   <EditIcon fontSize="small" />
                 )}
               </IconButton>
+              {editable && (
+                <Grow in>
+                  <div className={classes.editControlsContainer}>
+                    <div className={classes.editControls}>
+                      <IconButton
+                        className={classes.icon}
+                        aria-label="Color"
+                        onClick={this.changeColor}>
+                        <PaletteIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        className={classes.icon}
+                        aria-label="Note Size"
+                        onClick={this.changeNoteSize}>
+                        <PhotoSizeSelectSmallIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        className={classes.icon}
+                        aria-label="Text Size"
+                        onClick={this.changeTextSize}>
+                        <FormatSizeIcon fontSize="small" />
+                      </IconButton>
+                    </div>
+                    <div
+                      className={classes.editControls}
+                      style={{ position: 'absolute', top: -42, right: -42 }}>
+                      <IconButton
+                        className={classes.icon}
+                        aria-label="Delete"
+                        onClick={this.deleteNote}>
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </div>
+                  </div>
+                </Grow>
+              )}
             </div>
           </Grow>
         </div>
