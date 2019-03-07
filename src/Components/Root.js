@@ -103,13 +103,15 @@ class Root extends React.PureComponent {
       })
       .catch(e => {
         console.error('Authentication error:', e);
-        this.setState({ loginError: e.message }, () =>
-          setTimeout(
-            () => this.setState({ loggedIn: false, loginError: undefined }),
-            10000
-          )
+        this.setState({ loggedIn: false, loginError: e.message }, () =>
+          setTimeout(() => this.setState({ loginError: undefined }), 10000)
         );
       });
+
+  logout = () =>
+    app
+      .logout()
+      .then(() => this.setState({ loggedIn: false, loginError: undefined }));
 
   getNotes = async () => {
     const notes = [];
@@ -170,7 +172,11 @@ class Root extends React.PureComponent {
         {!loginAttempted ? (
           <CircularProgress className={classes.progress} />
         ) : loggedIn ? (
-          <Notes notes={notes} updateNote={this.updateNote} />
+          <Notes
+            notes={notes}
+            logout={this.logout}
+            updateNote={this.updateNote}
+          />
         ) : (
           <Login login={this.login} loginError={loginError} />
         )}

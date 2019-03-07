@@ -125,7 +125,7 @@ class Note extends React.PureComponent {
               </CardContent>
             </Card>
           </div>
-          <Grow in={controls} direction="right">
+          <Grow in={controls}>
             <div
               className={classes.controls}
               onMouseEnter={this.handleEnterControls}
