@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
+import { SketchPicker } from 'react-color';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
-import { SketchPicker } from 'react-color';
+import Popover from '@material-ui/core/Popover';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -52,12 +53,6 @@ const styles = () => ({
   icon: {
     height: 42,
     width: 42
-  },
-  colorPicker: {
-    position: 'fixed',
-    top: 42,
-    left: 42,
-    zIndex: 1000
   }
 });
 
@@ -84,6 +79,7 @@ const pickerColors = [
 
 class Note extends React.PureComponent {
   state = {
+    anchorEl: null,
     dragging: false,
     controls: false,
     editable: false,
@@ -149,8 +145,18 @@ class Note extends React.PureComponent {
 
   changeText = event => this.noteChange(['text'], event.target.value);
 
-  changeColor = () =>
-    this.setState({ showColorPicker: !this.state.showColorPicker });
+  handleClose = () =>
+    this.setState({
+      anchorEl: null,
+      showColorPicker: false,
+      showTextColorPicker: false
+    });
+
+  changeColor = event =>
+    this.setState({
+      anchorEl: event.currentTarget,
+      showColorPicker: !this.state.showColorPicker
+    });
 
   colorChanged = color =>
     this.noteChange(
@@ -158,8 +164,11 @@ class Note extends React.PureComponent {
       `rgba(${Object.values(color.rgb).join(',')})`
     );
 
-  changeTextColor = () =>
-    this.setState({ showTextColorPicker: !this.state.showTextColorPicker });
+  changeTextColor = event =>
+    this.setState({
+      anchorEl: event.currentTarget,
+      showTextColorPicker: !this.state.showTextColorPicker
+    });
 
   colorTextChanged = color =>
     this.noteChange(['color'], `rgba(${Object.values(color.rgb).join(',')})`);
@@ -167,6 +176,7 @@ class Note extends React.PureComponent {
   render() {
     const { classes, note } = this.props;
     const {
+      anchorEl,
       dragging,
       controls,
       editable,
@@ -174,6 +184,8 @@ class Note extends React.PureComponent {
       showColorPicker,
       showTextColorPicker
     } = this.state;
+
+    console.log('anchorEl', anchorEl);
 
     return (
       <Draggable
@@ -244,37 +256,57 @@ class Note extends React.PureComponent {
                       <IconButton
                         className={classes.icon}
                         aria-label="Note Size"
+                        aria-owns={anchorEl ? 'menu' : undefined}
+                        aria-haspopup="true"
                         onClick={this.changeNoteSize}>
                         <PhotoSizeSelectSmallIcon fontSize="small" />
                       </IconButton>
                       <IconButton
                         className={classes.icon}
                         aria-label="Color"
+                        aria-owns={anchorEl ? 'menu' : undefined}
+                        aria-haspopup="true"
                         onClick={this.changeColor}>
                         <PaletteIcon fontSize="small" />
                       </IconButton>
-                      {showColorPicker && (
-                        <SketchPicker
-                          className={classes.colorPicker}
-                          color={editableNote.background}
-                          colors={pickerColors}
-                          onChangeComplete={this.colorChanged}
-                        />
-                      )}
                       <IconButton
                         className={classes.icon}
                         aria-label="Text Size"
+                        aria-owns={anchorEl ? 'menu' : undefined}
+                        aria-haspopup="true"
                         onClick={this.changeTextSize}>
                         <FormatSizeIcon fontSize="small" />
                       </IconButton>
-                      {showTextColorPicker && (
-                        <SketchPicker
-                          className={classes.colorPicker}
-                          color={editableNote.color}
-                          colors={pickerColors}
-                          onChangeComplete={this.colorTextChanged}
-                        />
-                      )}
+                      <Popover
+                        className={classes.popover}
+                        open={showColorPicker || showTextColorPicker}
+                        anchorEl={anchorEl}
+                        onClose={this.handleClose}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'right'
+                        }}
+                        transformOrigin={{
+                          vertical: 52,
+                          horizontal: 'left'
+                        }}>
+                        {showColorPicker && (
+                          <SketchPicker
+                            className={classes.colorPicker}
+                            color={editableNote.background}
+                            colors={pickerColors}
+                            onChangeComplete={this.colorChanged}
+                          />
+                        )}
+                        {showTextColorPicker && (
+                          <SketchPicker
+                            className={classes.colorPicker}
+                            color={editableNote.color}
+                            colors={pickerColors}
+                            onChangeComplete={this.colorTextChanged}
+                          />
+                        )}
+                      </Popover>
                     </div>
                     <div
                       className={classes.editControls}
