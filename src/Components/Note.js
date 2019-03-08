@@ -152,12 +152,17 @@ class Note extends React.PureComponent {
   changeColor = () =>
     this.setState({ showColorPicker: !this.state.showColorPicker });
 
-  colorChanged = color => this.noteChange(['background'], color.hex);
+  colorChanged = color =>
+    this.noteChange(
+      ['background'],
+      `rgba(${Object.values(color.rgb).join(',')})`
+    );
 
   changeTextColor = () =>
     this.setState({ showTextColorPicker: !this.state.showTextColorPicker });
 
-  colorTextChanged = color => this.noteChange(['color'], color.hex);
+  colorTextChanged = color =>
+    this.noteChange(['color'], `rgba(${Object.values(color.rgb).join(',')})`);
 
   render() {
     const { classes, note } = this.props;
