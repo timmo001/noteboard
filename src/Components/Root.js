@@ -134,16 +134,16 @@ class Root extends React.PureComponent {
   };
 
   updateNote = (noteIn, updateServer) => {
+    const notes = clone(this.state.notes);
     const note = clone(noteIn);
     const id = clone(note._id);
+    notes[notes.findIndex(n => n._id === id)] = noteIn;
+    this.setState({ notes });
     delete note._id;
     delete note.user;
     delete note.userId;
     process.env.NODE_ENV === 'development' &&
       console.log('Update Note:', updateServer, id, note);
-    const notes = clone(this.state.notes);
-    notes[notes.findIndex(n => n._id === id)] = noteIn;
-    this.setState({ notes }, () => console.log('New notes:', notes));
     if (updateServer)
       socket.emit('patch', 'notes', id, note, (error, note) => {
         if (error) {
