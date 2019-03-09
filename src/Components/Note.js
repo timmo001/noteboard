@@ -43,12 +43,12 @@ const styles = theme => ({
       height: 24,
       top: 0,
       left: 0,
-      transform: 'translateX(-2px) skew(-1.2deg, -0.4deg)',
+      transform: 'translateX(-2px) rotate(-0.8deg) skew(-0.8deg, -0.4deg)',
       background: 'var(--background)'
     },
     boxShadow: 'none',
     borderRadius: 1,
-    transform: 'translateX(2px) skew(1.2deg, 0.4deg)',
+    transform: 'translateX(2px) rotate(-0.8deg) skew(0.8deg, 0.4deg)',
     // eslint-disable-next-line no-dupe-keys
     boxShadow:
       '0px 6px 6px -2px rgba(0,0,0,0.2), 0px 2px 10px 2px rgba(0,0,0,0.12)',
@@ -306,8 +306,8 @@ class Note extends React.PureComponent {
               elevation={dragging ? 3 : 1}
               style={{
                 '--background': editable
-                  ? editableNote.background || '#FFFF88'
-                  : note.background || '#FFFF88'
+                  ? editableNote.background || '#F8E71C'
+                  : note.background || '#F8E71C'
               }}>
               {note.style === 'pin' && (
                 <CardMedia
