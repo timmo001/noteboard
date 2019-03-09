@@ -27,24 +27,12 @@ var themes = [
   },
   {
     id: 2,
-    name: 'Dark',
-    palette: {
-      type: 'dark',
-      primary: blueGrey,
-      secondary: grey,
-      background: grey[900],
-      card: grey[800],
-      error: red
-    }
-  },
-  {
-    id: 3,
     name: 'Midnight',
     palette: {
       type: 'dark',
       primary: pink,
       secondary: pink,
-      background: '#383c45',
+      background: '#2C3039',
       card: grey[800],
       error: red
     }
