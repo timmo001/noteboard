@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Draggable from 'react-draggable';
 import { SketchPicker } from 'react-color';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -16,12 +23,49 @@ import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
 import FormatSizeIcon from '@material-ui/icons/FormatSize';
 import DeleteIcon from '@material-ui/icons/Delete';
 import clone from './Common/clone';
+import PushPin from '../resources/pushpin.svg';
 
 const styles = theme => ({
   noteContainer: {
     width: '100%',
+    padding: 12,
     paddingTop: '100%' /* 1:1 Aspect Ratio */,
-    position: 'relative' /* If you want text inside of it */
+    position: 'relative'
+  },
+  card: {
+    background: 'var(--background)'
+  },
+  sticky: {
+    '&:before': {
+      position: 'absolute',
+      content: '""',
+      width: '100%',
+      height: 24,
+      top: 0,
+      left: 0,
+      transform: 'translateX(-2px) skew(-1.2deg, -0.4deg)',
+      background: 'var(--background)'
+    },
+    boxShadow: 'none',
+    borderRadius: 1,
+    transform: 'translateX(2px) skew(1.2deg, 0.4deg)',
+    // eslint-disable-next-line no-dupe-keys
+    boxShadow:
+      '0px 6px 6px -2px rgba(0,0,0,0.2), 0px 2px 10px 2px rgba(0,0,0,0.12)',
+    background: 'var(--background)'
+  },
+  pin: {
+    overflow: 'visible',
+    borderRadius: 1,
+    transform: 'rotate(-1.4deg)',
+    background: 'var(--background)'
+  },
+  pinImage: {
+    position: 'absolute',
+    top: -8,
+    left: -8,
+    height: 38,
+    width: 38
   },
   note: {
     position: 'absolute',
@@ -35,7 +79,11 @@ const styles = theme => ({
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
+    right: 0,
+    paddingTop: 28,
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingBottom: '16px !important'
   },
   noteTextInput: {
     height: '100%',
@@ -59,7 +107,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     top: 0,
-    right: -48
+    right: -68
   },
   editControlsContainer: {
     display: 'flex',
@@ -80,7 +128,7 @@ const styles = theme => ({
   popoverContent: {
     display: 'flex',
     flexDirection: 'column',
-    alignContent: 'center',
+    alignItems: 'center',
     padding: theme.spacing.unit,
     zIndex: 10000,
     background: theme.palette.background
@@ -115,7 +163,7 @@ class Note extends React.PureComponent {
     controls: false,
     editable: false,
     showNoteSize: false,
-    showColor: false,
+    showStyle: false,
     showText: false
   };
   timeout;
@@ -185,7 +233,7 @@ class Note extends React.PureComponent {
     this.setState({
       anchorEl: null,
       showNoteSize: false,
-      showColor: false,
+      showStyle: false,
       showText: false
     });
 
@@ -195,10 +243,10 @@ class Note extends React.PureComponent {
       showNoteSize: !this.state.showNoteSize
     });
 
-  changeColor = event =>
+  changeStyle = event =>
     this.setState({
       anchorEl: event.currentTarget,
-      showColor: !this.state.showColor
+      showStyle: !this.state.showStyle
     });
 
   changeText = event =>
@@ -222,6 +270,8 @@ class Note extends React.PureComponent {
   colorTextChanged = color =>
     this.noteChange(['color'], `rgba(${Object.values(color.rgb).join(',')})`);
 
+  styleChanged = event => this.noteChange(['style'], event.target.value);
+
   render() {
     const { classes, note } = this.props;
     const {
@@ -231,7 +281,7 @@ class Note extends React.PureComponent {
       editable,
       editableNote,
       showNoteSize,
-      showColor,
+      showStyle,
       showText
     } = this.state;
 
@@ -249,19 +299,29 @@ class Note extends React.PureComponent {
             className={classes.noteContainer}
             onMouseMove={this.timeoutControls}>
             <Card
-              className={classes.note}
+              className={classnames(
+                classes.note,
+                classes[editable ? editableNote.style : note.style]
+              )}
               elevation={dragging ? 3 : 1}
               style={{
-                background: editable
+                '--background': editable
                   ? editableNote.background || '#FFFF88'
                   : note.background || '#FFFF88'
               }}>
+              {note.style === 'pin' && (
+                <CardMedia
+                  className={classes.pinImage}
+                  image={PushPin}
+                  title="Home Panel"
+                />
+              )}
               <CardContent className={classes.noteContent}>
                 <textarea
                   className={classes.noteTextInput}
                   value={editable ? editableNote.text : note.text}
                   disabled={editable ? false : true}
-                  readonly={editable ? false : true}
+                  readOnly={editable ? false : true}
                   onChange={this.changeNoteText}
                   style={{
                     color: editable
@@ -307,7 +367,7 @@ class Note extends React.PureComponent {
                         aria-label="Note Color"
                         aria-owns={anchorEl ? 'menu' : undefined}
                         aria-haspopup="true"
-                        onClick={this.changeColor}>
+                        onClick={this.changeStyle}>
                         <PaletteIcon fontSize="small" />
                       </IconButton>
                       <IconButton
@@ -356,13 +416,43 @@ class Note extends React.PureComponent {
                           />
                         </div>
                       )}
-                      {showColor && (
-                        <SketchPicker
-                          className={classes.colorPicker}
-                          color={editableNote.background}
-                          colors={pickerColors}
-                          onChangeComplete={this.colorChanged}
-                        />
+                      {showStyle && (
+                        <div className={classes.popoverContent}>
+                          <FormControl
+                            component="fieldset"
+                            className={classes.formControl}>
+                            <FormLabel component="legend">Style</FormLabel>
+                            <RadioGroup
+                              row
+                              aria-label="Style"
+                              name="style"
+                              className={classes.radioGroup}
+                              value={editableNote.style}
+                              onChange={this.styleChanged}>
+                              <FormControlLabel
+                                value="card"
+                                control={<Radio />}
+                                label="Card"
+                              />
+                              <FormControlLabel
+                                value="sticky"
+                                control={<Radio />}
+                                label="Sticky"
+                              />
+                              <FormControlLabel
+                                value="pin"
+                                control={<Radio />}
+                                label="Pin"
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                          <SketchPicker
+                            className={classes.colorPicker}
+                            color={editableNote.background}
+                            colors={pickerColors}
+                            onChangeComplete={this.colorChanged}
+                          />
+                        </div>
                       )}
                       {showText && (
                         <div className={classes.popoverContent}>

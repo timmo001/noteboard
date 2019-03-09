@@ -5,7 +5,7 @@ module.exports = function(_options = {}) {
   // eslint-disable-line no-unused-vars
   return async context => {
     const { data } = context;
-    const { x, y, background, size, font_size, color, text } = data;
+    const { x, y, background, size, font_size, color, text, style } = data;
 
     // Throw an error if we didn't get a x position
     if (!x) throw new Error('A note must have a x position');
@@ -35,6 +35,7 @@ module.exports = function(_options = {}) {
       font_size,
       color,
       text,
+      style,
       // Set the user id
       userId: user._id,
       // Add the current date
