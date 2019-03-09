@@ -306,8 +306,8 @@ class Note extends React.PureComponent {
               elevation={dragging ? 3 : 1}
               style={{
                 '--background': editable
-                  ? editableNote.background || '#F8E71C'
-                  : note.background || '#F8E71C'
+                  ? editableNote.background || 'rgba(248, 231, 28, 1)'
+                  : note.background || 'rgba(248, 231, 28, 1)'
               }}>
               {note.style === 'pin' && (
                 <CardMedia
@@ -325,8 +325,8 @@ class Note extends React.PureComponent {
                   onChange={this.changeNoteText}
                   style={{
                     color: editable
-                      ? editableNote.color || '#000000'
-                      : note.color || '#000000',
+                      ? editableNote.color || 'rgba(0, 0, 0, 1)'
+                      : note.color || 'rgba(0, 0, 0, 1)',
                     fontSize: editable
                       ? `${editableNote.font_size / 10}em` || '12em'
                       : `${note.font_size / 10}em` || '12em'
