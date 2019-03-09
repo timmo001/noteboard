@@ -5,8 +5,6 @@ import { SketchPicker } from 'react-color';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
@@ -83,7 +81,9 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignContent: 'center',
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit,
+    zIndex: 10000,
+    background: theme.palette.background
   }
 });
 
@@ -318,62 +318,6 @@ class Note extends React.PureComponent {
                         onClick={this.changeText}>
                         <FormatSizeIcon fontSize="small" />
                       </IconButton>
-                      <Popover
-                        className={classes.popover}
-                        open={anchorEl ? true : false}
-                        anchorEl={anchorEl}
-                        onClose={this.closePopover}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right'
-                        }}
-                        transformOrigin={{
-                          vertical: 52,
-                          horizontal: 'left'
-                        }}>
-                        {showNoteSize && (
-                          <div className={classes.popoverContent}>
-                            <TextField
-                              margin="normal"
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                              label="Note Size"
-                              type="number"
-                              value={editableNote.size}
-                              onChange={this.handleNumberChange('size')}
-                            />
-                          </div>
-                        )}
-                        {showColor && (
-                          <SketchPicker
-                            className={classes.colorPicker}
-                            color={editableNote.background}
-                            colors={pickerColors}
-                            onChangeComplete={this.colorChanged}
-                          />
-                        )}
-                        {showText && (
-                          <div className={classes.popoverContent}>
-                            <TextField
-                              margin="normal"
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                              label="Font Size"
-                              type="number"
-                              value={editableNote.font_size}
-                              onChange={this.handleNumberChange('font_size')}
-                            />
-                            <SketchPicker
-                              className={classes.colorPicker}
-                              color={editableNote.color}
-                              colors={pickerColors}
-                              onChangeComplete={this.colorTextChanged}
-                            />
-                          </div>
-                        )}
-                      </Popover>
                     </div>
                     <div
                       className={classes.editControls}
@@ -385,6 +329,62 @@ class Note extends React.PureComponent {
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </div>
+                    <Popover
+                      className={classes.popover}
+                      open={anchorEl ? true : false}
+                      anchorEl={anchorEl}
+                      onClose={this.closePopover}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                      }}
+                      transformOrigin={{
+                        vertical: 52,
+                        horizontal: 'left'
+                      }}>
+                      {showNoteSize && (
+                        <div className={classes.popoverContent}>
+                          <TextField
+                            margin="normal"
+                            InputLabelProps={{
+                              shrink: true
+                            }}
+                            label="Note Size"
+                            type="number"
+                            value={editableNote.size}
+                            onChange={this.handleNumberChange('size')}
+                          />
+                        </div>
+                      )}
+                      {showColor && (
+                        <SketchPicker
+                          className={classes.colorPicker}
+                          color={editableNote.background}
+                          colors={pickerColors}
+                          onChangeComplete={this.colorChanged}
+                        />
+                      )}
+                      {showText && (
+                        <div className={classes.popoverContent}>
+                          <TextField
+                            margin="normal"
+                            InputLabelProps={{
+                              shrink: true
+                            }}
+                            label="Font Size"
+                            type="number"
+                            value={editableNote.font_size}
+                            onChange={this.handleNumberChange('font_size')}
+                          />
+                          <SketchPicker
+                            className={classes.colorPicker}
+                            color={editableNote.color}
+                            colors={pickerColors}
+                            onChangeComplete={this.colorTextChanged}
+                          />
+                        </div>
+                      )}
+                    </Popover>
                   </div>
                 </Grow>
               )}
