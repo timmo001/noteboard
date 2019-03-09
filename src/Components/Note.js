@@ -17,10 +17,9 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall';
 import FormatSizeIcon from '@material-ui/icons/FormatSize';
 import DeleteIcon from '@material-ui/icons/Delete';
-
 import clone from './Common/clone';
 
-const styles = () => ({
+const styles = theme => ({
   noteContainer: {
     width: '100%',
     paddingTop: '100%' /* 1:1 Aspect Ratio */,
@@ -33,7 +32,16 @@ const styles = () => ({
     bottom: 0,
     right: 0
   },
-  textField: {
+  noteContent: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  },
+  noteTextInput: {
+    height: '100%',
+    display: 'flex',
     padding: 0
   },
   controls: {
@@ -54,6 +62,16 @@ const styles = () => ({
   icon: {
     height: 42,
     width: 42
+  },
+  colorPicker: {
+    background: 'none !important',
+    boxShadow: 'none !important'
+  },
+  popoverContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignContent: 'center',
+    padding: theme.spacing.unit
   }
 });
 
@@ -226,10 +244,10 @@ class Note extends React.PureComponent {
                   ? editableNote.background || '#FFFF88'
                   : note.background || '#FFFF88'
               }}>
-              <CardContent>
+              <CardContent className={classes.noteContent}>
                 {editable ? (
                   <InputBase
-                    className={classes.textField}
+                    className={classes.noteTextInput}
                     multiline
                     value={editableNote.text}
                     onChange={this.changeText}
@@ -309,17 +327,18 @@ class Note extends React.PureComponent {
                           horizontal: 'left'
                         }}>
                         {showNoteSize && (
-                          <TextField
-                            className={classes.textField}
-                            InputLabelProps={{
-                              shrink: true
-                            }}
-                            margin="normal"
-                            label="Note Size"
-                            type="number"
-                            value={editableNote.size}
-                            onChange={this.handleNumberChange('size')}
-                          />
+                          <div className={classes.popoverContent}>
+                            <TextField
+                              margin="normal"
+                              InputLabelProps={{
+                                shrink: true
+                              }}
+                              label="Note Size"
+                              type="number"
+                              value={editableNote.size}
+                              onChange={this.handleNumberChange('size')}
+                            />
+                          </div>
                         )}
                         {showColor && (
                           <SketchPicker
@@ -330,13 +349,12 @@ class Note extends React.PureComponent {
                           />
                         )}
                         {showText && (
-                          <div>
+                          <div className={classes.popoverContent}>
                             <TextField
-                              className={classes.textField}
+                              margin="normal"
                               InputLabelProps={{
                                 shrink: true
                               }}
-                              margin="normal"
                               label="Font Size"
                               type="number"
                               value={editableNote.font_size}
