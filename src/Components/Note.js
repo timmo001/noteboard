@@ -41,8 +41,20 @@ const styles = theme => ({
   },
   noteTextInput: {
     height: '100%',
-    display: 'flex',
-    padding: 0
+    width: '100%',
+    padding: 0,
+    resize: 'none',
+    background: 'none',
+    border: 'none',
+    overflow: 'auto',
+    outline: 'none',
+    boxShadow: 'none',
+    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: '1rem',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: '400',
+    lineHeight: '1.5',
+    letterSpacing: '0.00938em'
   },
   controls: {
     position: 'absolute',
@@ -245,28 +257,21 @@ class Note extends React.PureComponent {
                   : note.background || '#FFFF88'
               }}>
               <CardContent className={classes.noteContent}>
-                {editable ? (
-                  <InputBase
-                    className={classes.noteTextInput}
-                    multiline
-                    value={editableNote.text}
-                    onChange={this.changeNoteText}
-                    style={{
-                      color: editableNote.color || '#000000',
-                      fontSize: `${editableNote.font_size / 10}em` || '12em'
-                    }}
-                  />
-                ) : (
-                  <Typography
-                    component="span"
-                    variant="body1"
-                    style={{
-                      color: note.color || '#000000',
-                      fontSize: `${note.font_size / 10}em` || '12em'
-                    }}>
-                    {note.text}
-                  </Typography>
-                )}
+                <textarea
+                  className={classes.noteTextInput}
+                  value={editable ? editableNote.text : note.text}
+                  disabled={editable ? false : true}
+                  readonly={editable ? false : true}
+                  onChange={this.changeNoteText}
+                  style={{
+                    color: editable
+                      ? editableNote.color || '#000000'
+                      : note.color || '#000000',
+                    fontSize: editable
+                      ? `${editableNote.font_size / 10}em` || '12em'
+                      : `${note.font_size / 10}em` || '12em'
+                  }}
+                />
               </CardContent>
             </Card>
           </div>
