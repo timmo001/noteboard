@@ -164,7 +164,7 @@ class Note extends React.PureComponent {
     this.props.updateNote(note, true);
   };
 
-  changeText = event => this.noteChange(['text'], event.target.value);
+  changeNoteText = event => this.noteChange(['text'], event.target.value);
 
   handleNumberChange = name => event =>
     this.noteChange([name], Number(event.target.value));
@@ -250,7 +250,7 @@ class Note extends React.PureComponent {
                     className={classes.noteTextInput}
                     multiline
                     value={editableNote.text}
-                    onChange={this.changeText}
+                    onChange={this.changeNoteText}
                     style={{
                       color: editableNote.color || '#000000',
                       fontSize: `${editableNote.font_size / 10}em` || '12em'
