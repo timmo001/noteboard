@@ -38,8 +38,12 @@ class Notes extends React.PureComponent {
   };
   timeout;
 
-  componentDidUpdate = newProps =>
-    this.props.notes !== newProps.notes && this.forceUpdate();
+  componentDidUpdate = newProps => {
+    if (this.props.notes !== newProps.notes) {
+      this.forceUpdate();
+      setTimeout(() => this.forceUpdate(), 1000);
+    }
+  };
 
   showOverlays = () => this.setState({ showOverlays: true });
 
