@@ -41,7 +41,7 @@ class Notes extends React.PureComponent {
   componentDidUpdate = newProps => {
     if (this.props.notes !== newProps.notes) {
       this.forceUpdate();
-      setTimeout(() => this.forceUpdate(), 1000);
+      setTimeout(() => this.forceUpdate(), 200);
     }
   };
 
