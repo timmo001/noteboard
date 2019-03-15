@@ -197,7 +197,6 @@ class Root extends React.PureComponent {
     else {
       const notes = clone(this.state.notes);
       const id = notes.findIndex(n => n._id === note._id);
-      process.env.NODE_ENV === 'development' && console.log('Array ID:', id);
       notes.splice(id, 1);
       this.setState({ notes });
     }

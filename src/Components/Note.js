@@ -172,6 +172,11 @@ class Note extends React.PureComponent {
   controlsTimeout;
   editableTimeout;
 
+  componentWillUnmount = () => {
+    clearTimeout(this.controlsTimeout);
+    clearTimeout(this.editableTimeout);
+  };
+
   handleDrag = () => {
     clearTimeout(this.controlsTimeout);
     this.setState({ dragging: true, controls: false });
