@@ -4,10 +4,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Grow from '@material-ui/core/Grow';
+import Fab from '@material-ui/core/Fab';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddIcon from '@material-ui/icons/Add';
 import Note from './Note';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     height: '100%',
     width: '100%'
@@ -16,12 +18,17 @@ const styles = theme => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    padding: theme.spacing.unit
+    padding: 12
   },
   progress: {
     position: 'absolute',
     top: '50%',
     left: '50%'
+  },
+  fab: {
+    position: 'fixed',
+    right: 16,
+    bottom: 16
   }
 });
 
@@ -47,11 +54,11 @@ class Notes extends React.PureComponent {
   controlsLeft = () => this.setState({ controlsEntered: false });
 
   render() {
-    const { classes, notes, logout, updateNote } = this.props;
+    const { classes, notes, logout, addNote, updateNote } = this.props;
     const { showHeader } = this.state;
 
     return (
-      <main className={classes.root} onMouseMove={this.timeoutHeader}>
+      <div className={classes.root}>
         <header
           className={classes.header}
           onMouseEnter={this.controlsEntered}
@@ -65,14 +72,23 @@ class Notes extends React.PureComponent {
             </IconButton>
           </Grow>
         </header>
-        {notes ? (
-          notes.map((note, id) => (
-            <Note key={id} note={note} updateNote={updateNote} />
-          ))
-        ) : (
-          <CircularProgress className={classes.progress} />
-        )}
-      </main>
+        <main onMouseMove={this.timeoutHeader}>
+          {notes ? (
+            notes.map((note, id) => (
+              <Note key={id} note={note} updateNote={updateNote} />
+            ))
+          ) : (
+            <CircularProgress className={classes.progress} />
+          )}
+          <Fab
+            className={classes.fab}
+            color="primary"
+            aria-label="Add"
+            onClick={addNote}>
+            <AddIcon />
+          </Fab>
+        </main>
+      </div>
     );
   }
 }
@@ -80,6 +96,7 @@ class Notes extends React.PureComponent {
 Notes.propTypes = {
   classes: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
+  addNote: PropTypes.func.isRequired,
   updateNote: PropTypes.func.isRequired,
   notes: PropTypes.array
 };
