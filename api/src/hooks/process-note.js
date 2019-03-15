@@ -5,7 +5,17 @@ module.exports = function(_options = {}) {
   // eslint-disable-line no-unused-vars
   return async context => {
     const { data } = context;
-    const { x, y, background, size, font_size, color, text, style } = data;
+    const {
+      x,
+      y,
+      background,
+      height,
+      width,
+      font_size,
+      color,
+      text,
+      style
+    } = data;
 
     // Throw an error if we didn't get a x position
     if (!x) throw new Error('A note must have a x position');
@@ -18,8 +28,10 @@ module.exports = function(_options = {}) {
       throw new Error('The x position must be a number');
     if (!Number.isInteger(y))
       throw new Error('The y position must be a number');
-    if (size && !Number.isInteger(size))
-      throw new Error('The size must be a number');
+    if (height && !Number.isInteger(height))
+      throw new Error('Height must be a number');
+    if (width && !Number.isInteger(width))
+      throw new Error('Width must be a number');
     if (font_size && !Number.isInteger(font_size))
       throw new Error('The font_size must be a number');
 
@@ -31,7 +43,8 @@ module.exports = function(_options = {}) {
       x,
       y,
       background,
-      size,
+      height,
+      width,
       font_size,
       color,
       text,
