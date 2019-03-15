@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
-import Grow from '@material-ui/core/Grow';
+import Slide from '@material-ui/core/Slide';
 import Fab from '@material-ui/core/Fab';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,7 +17,7 @@ const styles = () => ({
   header: {
     position: 'absolute',
     top: 0,
-    right: 0,
+    left: 0,
     padding: 12
   },
   progress: {
@@ -34,59 +34,78 @@ const styles = () => ({
 
 class Notes extends React.PureComponent {
   state = {
-    showHeader: false
+    showOverlays: false
   };
   timeout;
 
-  showHeader = () => this.setState({ showHeader: true });
+  componentDidUpdate = newProps =>
+    this.props.notes !== newProps.notes && this.forceUpdate();
 
-  hideHeader = () => this.setState({ showHeader: false });
+  showOverlays = () => this.setState({ showOverlays: true });
 
-  timeoutHeader = () => {
+  hideOverlays = () => this.setState({ showOverlays: false });
+
+  timeoutOverlays = () => {
     clearTimeout(this.timeout);
-    this.showHeader();
-    if (!this.state.controlsEntered)
-      this.timeout = setTimeout(() => this.hideHeader(), 1200);
+    this.showOverlays();
+    if (!this.state.overlayEntered)
+      this.timeout = setTimeout(() => this.hideOverlays(), 1200);
   };
 
-  controlsEntered = () => this.setState({ controlsEntered: true });
+  overlayEntered = () => this.setState({ overlayEntered: true });
 
-  controlsLeft = () => this.setState({ controlsEntered: false });
+  overlayLeft = () => this.setState({ overlayEntered: false });
 
   render() {
-    const { classes, notes, logout, addNote, updateNote } = this.props;
-    const { showHeader } = this.state;
+    const {
+      classes,
+      notes,
+      logout,
+      addNote,
+      updateNote,
+      deleteNote
+    } = this.props;
+    const { showOverlays } = this.state;
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root} onMouseMove={this.timeoutOverlays}>
         <header
           className={classes.header}
-          onMouseEnter={this.controlsEntered}
-          onMouseLeave={this.controlsLeft}>
-          <Grow in={showHeader}>
+          onMouseEnter={this.overlayEntered}
+          onMouseLeave={this.overlayLeft}>
+          <Slide direction="down" in={showOverlays}>
             <IconButton
               aria-label="Log Out"
               className={classes.margin}
               onClick={logout}>
               <ExitToAppIcon fontSize="small" />
             </IconButton>
-          </Grow>
+          </Slide>
         </header>
-        <main onMouseMove={this.timeoutHeader}>
+        <main>
           {notes ? (
             notes.map((note, id) => (
-              <Note key={id} note={note} updateNote={updateNote} />
+              <Note
+                key={id}
+                note={note}
+                updateNote={updateNote}
+                deleteNote={deleteNote}
+              />
             ))
           ) : (
             <CircularProgress className={classes.progress} />
           )}
-          <Fab
-            className={classes.fab}
-            color="primary"
-            aria-label="Add"
-            onClick={addNote}>
-            <AddIcon />
-          </Fab>
+          <Slide direction="up" in={showOverlays}>
+            <Fab
+              className={classes.fab}
+              color="primary"
+              aria-label="Add"
+              onMouseEnter={this.overlayEntered}
+              onMouseLeave={this.overlayLeft}
+              onClick={addNote}>
+              <AddIcon />
+            </Fab>
+          </Slide>
         </main>
       </div>
     );
@@ -98,6 +117,7 @@ Notes.propTypes = {
   logout: PropTypes.func.isRequired,
   addNote: PropTypes.func.isRequired,
   updateNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
   notes: PropTypes.array
 };
 
