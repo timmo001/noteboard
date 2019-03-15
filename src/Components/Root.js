@@ -133,6 +133,33 @@ class Root extends React.PureComponent {
     this.setState({ notes });
   };
 
+  addNote = () => {
+    process.env.NODE_ENV === 'development' && console.log('Add Note');
+    socket.emit(
+      'create',
+      'notes',
+      {
+        x: 20,
+        y: 20,
+        background: 'rgba(248, 231, 28, 1)',
+        height: 180,
+        width: 180,
+        font_size: 12,
+        color: 'rgba(0, 0, 0, 1)',
+        text: 'New Note',
+        style: 'card'
+      },
+      (error, note) => {
+        if (error)
+          process.env.NODE_ENV === 'development' &&
+            console.error('Error creating new note:', error);
+        else
+          process.env.NODE_ENV === 'development' &&
+            console.log('Created new note:', note);
+      }
+    );
+  };
+
   updateNote = (noteIn, updateServer) => {
     const notes = clone(this.state.notes);
     const note = clone(noteIn);
@@ -189,6 +216,7 @@ class Root extends React.PureComponent {
           <Notes
             notes={notes}
             logout={this.logout}
+            addNote={this.addNote}
             updateNote={this.updateNote}
           />
         ) : (
