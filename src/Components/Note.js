@@ -250,7 +250,8 @@ class Note extends React.PureComponent {
 
   changeNoteText = event => {
     this.noteChange(['text'], event.target.value);
-    this.timeoutEditable();
+    clearTimeout(this.editableTimeout);
+    this.editableTimeout = setTimeout(() => this.editableOff(), 8000);
   };
 
   handleNumberChange = name => event =>
