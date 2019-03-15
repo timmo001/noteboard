@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import Draggable from 'react-draggable';
+import { Rnd } from 'react-rnd';
 import { SketchPicker } from 'react-color';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
@@ -26,14 +26,13 @@ import clone from './Common/clone';
 import PushPin from '../resources/pushpin.svg';
 
 const styles = theme => ({
-  noteContainer: {
-    width: '100%',
-    padding: 12,
-    paddingTop: '100%' /* 1:1 Aspect Ratio */,
-    position: 'relative'
+  noteRoot: {
+    height: '100%',
+    width: '100%'
   },
   card: {
-    background: 'var(--background)'
+    background: 'var(--background)',
+    padding: 12
   },
   sticky: {
     '&:before': {
@@ -43,6 +42,7 @@ const styles = theme => ({
       height: 24,
       top: 0,
       left: 0,
+      padding: 12,
       transform: 'translateX(-2px) rotate(-0.8deg) skew(-0.8deg, -0.4deg)',
       background: 'var(--background)'
     },
@@ -57,6 +57,7 @@ const styles = theme => ({
   pin: {
     overflow: 'visible',
     borderRadius: 1,
+    padding: 12,
     transform: 'rotate(-1.4deg)',
     background: 'var(--background)'
   },
@@ -107,7 +108,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     top: 0,
-    right: -68
+    right: -48
   },
   editControlsContainer: {
     display: 'flex',
@@ -173,7 +174,7 @@ class Note extends React.PureComponent {
     this.setState({ dragging: true, controls: false });
   };
 
-  handleStop = (_e, data) => {
+  handleDragStop = (_e, data) => {
     this.setState({ dragging: false });
     let { note } = this.props;
     note.x = data.x;
@@ -286,15 +287,18 @@ class Note extends React.PureComponent {
     } = this.state;
 
     return (
-      <Draggable
-        position={{ x: note.x, y: note.y }}
-        disabled={editable}
+      <Rnd
+        position={note.x && note.y && { x: note.x, y: note.y }}
+        size={{
+          height: editable ? editableNote.height || 180 : note.height || 180,
+          width: editable ? editableNote.width || 180 : note.width || 180
+        }}
+        style={{ cursor: 'auto' }}
+        disableDragging={editable}
+        enableResizing={false}
         onDrag={this.handleDrag}
-        onStop={this.handleStop}>
-        <div
-          style={{
-            width: editable ? editableNote.size || 180 : note.size || 180
-          }}>
+        onDragStop={this.handleDragStop}>
+        <div className={classes.noteRoot}>
           <div
             className={classes.noteContainer}
             onMouseMove={this.timeoutControls}>
@@ -313,7 +317,7 @@ class Note extends React.PureComponent {
                 <CardMedia
                   className={classes.pinImage}
                   image={PushPin}
-                  title="Home Panel"
+                  title="Pin"
                 />
               )}
               <CardContent className={classes.noteContent}>
@@ -406,13 +410,19 @@ class Note extends React.PureComponent {
                         <div className={classes.popoverContent}>
                           <TextField
                             margin="normal"
-                            InputLabelProps={{
-                              shrink: true
-                            }}
-                            label="Note Size"
+                            InputLabelProps={{ shrink: true }}
+                            label="Note Height"
                             type="number"
-                            value={editableNote.size}
-                            onChange={this.handleNumberChange('size')}
+                            value={editableNote.height}
+                            onChange={this.handleNumberChange('height')}
+                          />
+                          <TextField
+                            margin="normal"
+                            InputLabelProps={{ shrink: true }}
+                            label="Note Width"
+                            type="number"
+                            value={editableNote.width}
+                            onChange={this.handleNumberChange('width')}
                           />
                         </div>
                       )}
@@ -481,7 +491,7 @@ class Note extends React.PureComponent {
             </div>
           </Grow>
         </div>
-      </Draggable>
+      </Rnd>
     );
   }
 }

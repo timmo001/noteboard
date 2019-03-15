@@ -9,7 +9,8 @@ module.exports = function(_options = {}) {
       x,
       y,
       background,
-      size,
+      height,
+      width,
       font_size,
       color,
       text,
@@ -28,8 +29,10 @@ module.exports = function(_options = {}) {
       throw new Error('The x position must be a number');
     if (!Number.isInteger(y))
       throw new Error('The y position must be a number');
-    if (size && !Number.isInteger(size))
-      throw new Error('The size must be a number');
+    if (height && !Number.isInteger(height))
+      throw new Error('Height must be a number');
+    if (width && !Number.isInteger(width))
+      throw new Error('Width must be a number');
     if (font_size && !Number.isInteger(font_size))
       throw new Error('The font_size must be a number');
 
@@ -41,7 +44,8 @@ module.exports = function(_options = {}) {
       x,
       y,
       background,
-      size,
+      height,
+      width,
       font_size,
       color,
       text,
