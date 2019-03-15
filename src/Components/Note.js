@@ -169,10 +169,11 @@ class Note extends React.PureComponent {
     showText: false,
     confirmDelete: false
   };
-  timeout;
+  controlsTimeout;
+  editableTimeout;
 
   handleDrag = () => {
-    clearTimeout(this.timeout);
+    clearTimeout(this.controlsTimeout);
     this.setState({ dragging: true, controls: false });
   };
 
@@ -184,11 +185,27 @@ class Note extends React.PureComponent {
     this.props.updateNote(note, true);
   };
 
-  toggleEditable = () =>
-    this.setState({
-      editable: !this.state.editable,
-      editableNote: this.props.note
-    });
+  editableOff = () =>
+    this.setState({ editable: false, editableNote: undefined });
+
+  editableOn = () =>
+    this.setState({ editable: true, editableNote: this.props.note });
+
+  timeoutEditable = () => {
+    clearTimeout(this.editableTimeout);
+    this.editableOn();
+    this.editableTimeout = setTimeout(
+      () => !this.state.anchorEl && this.editableOff(),
+      5000
+    );
+  };
+
+  toggleEditable = () => {
+    if (this.state.editable) {
+      clearTimeout(this.editableTimeout);
+      this.editableOff();
+    } else this.timeoutEditable();
+  };
 
   showControls = () => {
     if (!this.state.dragging && !this.state.controlsEntered)
@@ -198,15 +215,16 @@ class Note extends React.PureComponent {
   hideControls = () => this.setState({ controls: false });
 
   timeoutControls = () => {
-    clearTimeout(this.timeout);
+    clearTimeout(this.controlsTimeout);
     if (!this.state.dragging && !this.state.controlsEntered) {
       this.showControls();
-      this.timeout = setTimeout(() => this.hideControls(), 1200);
+      this.controlsTimeout = setTimeout(() => this.hideControls(), 1200);
     }
   };
 
   handleEnterControls = () => {
-    clearTimeout(this.timeout);
+    clearTimeout(this.controlsTimeout);
+    clearTimeout(this.editableTimeout);
     this.setState({ controlsEntered: true });
     this.showControls();
   };
@@ -220,8 +238,6 @@ class Note extends React.PureComponent {
     let note = clone(this.state.editableNote);
     const lastItem = path.pop();
     let secondLastItem = path.reduce((o, k) => (o[k] = o[k] || {}), note);
-    console.log('lastItem:', lastItem);
-    console.log('secondLastItem:', secondLastItem);
     secondLastItem[lastItem] = value;
     this.setState({ editableNote: note });
     this.props.updateNote(note, true);
@@ -233,12 +249,18 @@ class Note extends React.PureComponent {
     this.noteChange([name], Number(event.target.value));
 
   closePopover = () =>
-    this.setState({
-      anchorEl: null,
-      showNoteSize: false,
-      showStyle: false,
-      showText: false
-    });
+    this.setState(
+      {
+        anchorEl: null,
+        showNoteSize: false,
+        showStyle: false,
+        showText: false
+      },
+      () => {
+        this.timeoutControls();
+        this.timeoutEditable();
+      }
+    );
 
   changeNoteSize = event =>
     this.setState({
@@ -353,7 +375,7 @@ class Note extends React.PureComponent {
                 </CardContent>
               </Card>
             </div>
-            <Grow in={controls}>
+            <Grow in={editable || controls}>
               <div
                 className={classes.controls}
                 onMouseEnter={this.handleEnterControls}
