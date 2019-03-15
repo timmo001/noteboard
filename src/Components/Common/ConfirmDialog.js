@@ -8,7 +8,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const styles = () => ({});
+const styles = theme => ({
+  root: {
+    minWidth: 320,
+    background: theme.palette.background
+  }
+});
 
 class ConfirmDialog extends React.PureComponent {
   state = {
@@ -23,28 +28,31 @@ class ConfirmDialog extends React.PureComponent {
   };
 
   render() {
-    const { text } = this.props;
+    const { classes, text } = this.props;
     const { open } = this.state;
 
     return (
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {text}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
-            No
-          </Button>
-          <Button onClick={this.handleConfirm} color="primary" autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
+        aria-describedby="alert-dialog-description"
+        onClose={this.handleClose}>
+        <div className={classes.root}>
+          <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {text}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              No
+            </Button>
+            <Button onClick={this.handleConfirm} color="primary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
     );
   }

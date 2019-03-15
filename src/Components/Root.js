@@ -125,6 +125,7 @@ class Root extends React.PureComponent {
     notesService.on('created', note => this.addToNotes(note));
     notesService.on('updated', note => this.updateNote(note, false));
     notesService.on('patched', note => this.updateNote(note, false));
+    notesService.on('removed', note => this.deleteNote(note, false));
   };
 
   addToNotes = note => {
@@ -173,29 +174,33 @@ class Root extends React.PureComponent {
       console.log('Update Note:', updateServer, id, note);
     if (updateServer)
       socket.emit('patch', 'notes', id, note, (error, note) => {
-        if (error) {
+        if (error)
           process.env.NODE_ENV === 'development' &&
             console.error('Error updating', id, ':', error);
-          // this.setState({
-          //   snackMessage: {
-          //     open: true,
-          //     error: true,
-          //     persistent: false,
-          //     text: `Error updating: ${error}`
-          //   }
-          // });
-        } else {
+        else
           process.env.NODE_ENV === 'development' &&
             console.log('Updated Note:', id, note);
-          // this.setState({
-          //   snackMessage: {
-          //     open: true,
-          //     persistent: false,
-          //     text: 'Updated Note'
-          //   }
-          // });
-        }
       });
+  };
+
+  deleteNote = (note, updateServer) => {
+    process.env.NODE_ENV === 'development' && console.log('Delete Note:', note);
+    if (updateServer)
+      socket.emit('remove', 'notes', note._id, (error, note) => {
+        if (error)
+          process.env.NODE_ENV === 'development' &&
+            console.error('Error removing', note._id, ':', error);
+        else
+          process.env.NODE_ENV === 'development' &&
+            console.log('Removed Note:', note._id, note);
+      });
+    else {
+      const notes = clone(this.state.notes);
+      const id = notes.findIndex(n => n._id === note._id);
+      process.env.NODE_ENV === 'development' && console.log('Array ID:', id);
+      notes.splice(id, 1);
+      this.setState({ notes });
+    }
   };
 
   render() {
@@ -218,6 +223,7 @@ class Root extends React.PureComponent {
             logout={this.logout}
             addNote={this.addNote}
             updateNote={this.updateNote}
+            deleteNote={this.deleteNote}
           />
         ) : (
           <Login login={this.login} loginError={loginError} />

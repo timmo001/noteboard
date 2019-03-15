@@ -24,6 +24,7 @@ import FormatSizeIcon from '@material-ui/icons/FormatSize';
 import DeleteIcon from '@material-ui/icons/Delete';
 import clone from './Common/clone';
 import PushPin from '../resources/pushpin.svg';
+import ConfirmDialog from './Common/ConfirmDialog';
 
 const styles = theme => ({
   noteRoot: {
@@ -165,7 +166,8 @@ class Note extends React.PureComponent {
     editable: false,
     showNoteSize: false,
     showStyle: false,
-    showText: false
+    showText: false,
+    confirmDelete: false
   };
   timeout;
 
@@ -273,6 +275,16 @@ class Note extends React.PureComponent {
 
   styleChanged = event => this.noteChange(['style'], event.target.value);
 
+  deleteNoteConfirm = () => this.setState({ confirmDelete: true });
+
+  confirmClose = () => this.setState({ confirmDelete: false });
+
+  confirmDelete = () => {
+    this.confirmClose();
+    this.hideControls();
+    this.props.deleteNote(this.props.note, true);
+  };
+
   render() {
     const { classes, note } = this.props;
     const {
@@ -283,215 +295,225 @@ class Note extends React.PureComponent {
       editableNote,
       showNoteSize,
       showStyle,
-      showText
+      showText,
+      confirmDelete
     } = this.state;
 
     return (
-      <Rnd
-        position={note.x && note.y && { x: note.x, y: note.y }}
-        size={{
-          height: editable ? editableNote.height || 180 : note.height || 180,
-          width: editable ? editableNote.width || 180 : note.width || 180
-        }}
-        style={{ cursor: 'auto' }}
-        disableDragging={editable}
-        enableResizing={false}
-        onDrag={this.handleDrag}
-        onDragStop={this.handleDragStop}>
-        <div className={classes.noteRoot}>
-          <div
-            className={classes.noteContainer}
-            onMouseMove={this.timeoutControls}>
-            <Card
-              className={classnames(
-                classes.note,
-                classes[editable ? editableNote.style : note.style]
-              )}
-              elevation={dragging ? 3 : 1}
-              style={{
-                '--background': editable
-                  ? editableNote.background || 'rgba(248, 231, 28, 1)'
-                  : note.background || 'rgba(248, 231, 28, 1)'
-              }}>
-              {note.style === 'pin' && (
-                <CardMedia
-                  className={classes.pinImage}
-                  image={PushPin}
-                  title="Pin"
-                />
-              )}
-              <CardContent className={classes.noteContent}>
-                <textarea
-                  className={classes.noteTextInput}
-                  value={editable ? editableNote.text : note.text}
-                  disabled={editable ? false : true}
-                  readOnly={editable ? false : true}
-                  onChange={this.changeNoteText}
-                  style={{
-                    color: editable
-                      ? editableNote.color || 'rgba(0, 0, 0, 1)'
-                      : note.color || 'rgba(0, 0, 0, 1)',
-                    fontSize: editable
-                      ? `${editableNote.font_size / 10}em` || '12em'
-                      : `${note.font_size / 10}em` || '12em'
-                  }}
-                />
-              </CardContent>
-            </Card>
-          </div>
-          <Grow in={controls}>
+      <div>
+        <Rnd
+          position={note.x && note.y && { x: note.x, y: note.y }}
+          size={{
+            height: editable ? editableNote.height || 180 : note.height || 180,
+            width: editable ? editableNote.width || 180 : note.width || 180
+          }}
+          style={{ cursor: 'auto' }}
+          disableDragging={editable}
+          enableResizing={false}
+          onDrag={this.handleDrag}
+          onDragStop={this.handleDragStop}>
+          <div className={classes.noteRoot}>
             <div
-              className={classes.controls}
-              onMouseEnter={this.handleEnterControls}
-              onMouseLeave={this.handleExitControls}>
-              <IconButton
-                className={classes.icon}
-                aria-label="Edit"
-                onClick={this.toggleEditable}>
-                {editable ? (
-                  <DoneIcon fontSize="small" />
-                ) : (
-                  <EditIcon fontSize="small" />
+              className={classes.noteContainer}
+              onMouseMove={this.timeoutControls}>
+              <Card
+                className={classnames(
+                  classes.note,
+                  classes[editable ? editableNote.style : note.style]
                 )}
-              </IconButton>
-              {editable && (
-                <Grow in>
-                  <div className={classes.editControlsContainer}>
-                    <div className={classes.editControls}>
-                      <IconButton
-                        className={classes.icon}
-                        aria-label="Note Size"
-                        aria-owns={anchorEl ? 'menu' : undefined}
-                        aria-haspopup="true"
-                        onClick={this.changeNoteSize}>
-                        <PhotoSizeSelectSmallIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        className={classes.icon}
-                        aria-label="Note Color"
-                        aria-owns={anchorEl ? 'menu' : undefined}
-                        aria-haspopup="true"
-                        onClick={this.changeStyle}>
-                        <PaletteIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        className={classes.icon}
-                        aria-label="Text"
-                        aria-owns={anchorEl ? 'menu' : undefined}
-                        aria-haspopup="true"
-                        onClick={this.changeText}>
-                        <FormatSizeIcon fontSize="small" />
-                      </IconButton>
-                    </div>
-                    <div
-                      className={classes.editControls}
-                      style={{ position: 'absolute', top: -42, right: -42 }}>
-                      <IconButton
-                        className={classes.icon}
-                        aria-label="Delete"
-                        onClick={this.deleteNote}>
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </div>
-                    <Popover
-                      className={classes.popover}
-                      open={anchorEl ? true : false}
-                      anchorEl={anchorEl}
-                      onClose={this.closePopover}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right'
-                      }}
-                      transformOrigin={{
-                        vertical: 52,
-                        horizontal: 'left'
-                      }}>
-                      {showNoteSize && (
-                        <div className={classes.popoverContent}>
-                          <TextField
-                            margin="normal"
-                            InputLabelProps={{ shrink: true }}
-                            label="Note Height"
-                            type="number"
-                            value={editableNote.height}
-                            onChange={this.handleNumberChange('height')}
-                          />
-                          <TextField
-                            margin="normal"
-                            InputLabelProps={{ shrink: true }}
-                            label="Note Width"
-                            type="number"
-                            value={editableNote.width}
-                            onChange={this.handleNumberChange('width')}
-                          />
-                        </div>
-                      )}
-                      {showStyle && (
-                        <div className={classes.popoverContent}>
-                          <FormControl
-                            component="fieldset"
-                            className={classes.formControl}>
-                            <FormLabel component="legend">Style</FormLabel>
-                            <RadioGroup
-                              row
-                              aria-label="Style"
-                              name="style"
-                              className={classes.radioGroup}
-                              value={editableNote.style}
-                              onChange={this.styleChanged}>
-                              <FormControlLabel
-                                value="card"
-                                control={<Radio />}
-                                label="Card"
-                              />
-                              <FormControlLabel
-                                value="sticky"
-                                control={<Radio />}
-                                label="Sticky"
-                              />
-                              <FormControlLabel
-                                value="pin"
-                                control={<Radio />}
-                                label="Pin"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                          <SketchPicker
-                            className={classes.colorPicker}
-                            color={editableNote.background}
-                            colors={pickerColors}
-                            onChangeComplete={this.colorChanged}
-                          />
-                        </div>
-                      )}
-                      {showText && (
-                        <div className={classes.popoverContent}>
-                          <TextField
-                            margin="normal"
-                            InputLabelProps={{
-                              shrink: true
-                            }}
-                            label="Font Size"
-                            type="number"
-                            value={editableNote.font_size}
-                            onChange={this.handleNumberChange('font_size')}
-                          />
-                          <SketchPicker
-                            className={classes.colorPicker}
-                            color={editableNote.color}
-                            colors={pickerColors}
-                            onChangeComplete={this.colorTextChanged}
-                          />
-                        </div>
-                      )}
-                    </Popover>
-                  </div>
-                </Grow>
-              )}
+                elevation={dragging ? 3 : 1}
+                style={{
+                  '--background': editable
+                    ? editableNote.background || 'rgba(248, 231, 28, 1)'
+                    : note.background || 'rgba(248, 231, 28, 1)'
+                }}>
+                {note.style === 'pin' && (
+                  <CardMedia
+                    className={classes.pinImage}
+                    image={PushPin}
+                    title="Pin"
+                  />
+                )}
+                <CardContent className={classes.noteContent}>
+                  <textarea
+                    className={classes.noteTextInput}
+                    value={editable ? editableNote.text : note.text}
+                    disabled={editable ? false : true}
+                    readOnly={editable ? false : true}
+                    onChange={this.changeNoteText}
+                    style={{
+                      color: editable
+                        ? editableNote.color || 'rgba(0, 0, 0, 1)'
+                        : note.color || 'rgba(0, 0, 0, 1)',
+                      fontSize: editable
+                        ? `${editableNote.font_size / 10}em` || '12em'
+                        : `${note.font_size / 10}em` || '12em'
+                    }}
+                  />
+                </CardContent>
+              </Card>
             </div>
-          </Grow>
-        </div>
-      </Rnd>
+            <Grow in={controls}>
+              <div
+                className={classes.controls}
+                onMouseEnter={this.handleEnterControls}
+                onMouseLeave={this.handleExitControls}>
+                <IconButton
+                  className={classes.icon}
+                  aria-label="Edit"
+                  onClick={this.toggleEditable}>
+                  {editable ? (
+                    <DoneIcon fontSize="small" />
+                  ) : (
+                    <EditIcon fontSize="small" />
+                  )}
+                </IconButton>
+                {editable && (
+                  <Grow in>
+                    <div className={classes.editControlsContainer}>
+                      <div className={classes.editControls}>
+                        <IconButton
+                          className={classes.icon}
+                          aria-label="Note Size"
+                          aria-owns={anchorEl ? 'menu' : undefined}
+                          aria-haspopup="true"
+                          onClick={this.changeNoteSize}>
+                          <PhotoSizeSelectSmallIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          className={classes.icon}
+                          aria-label="Note Color"
+                          aria-owns={anchorEl ? 'menu' : undefined}
+                          aria-haspopup="true"
+                          onClick={this.changeStyle}>
+                          <PaletteIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          className={classes.icon}
+                          aria-label="Text"
+                          aria-owns={anchorEl ? 'menu' : undefined}
+                          aria-haspopup="true"
+                          onClick={this.changeText}>
+                          <FormatSizeIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                      <div
+                        className={classes.editControls}
+                        style={{ position: 'absolute', top: -42, right: -42 }}>
+                        <IconButton
+                          className={classes.icon}
+                          aria-label="Delete"
+                          onClick={this.deleteNoteConfirm}>
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                      <Popover
+                        className={classes.popover}
+                        open={anchorEl ? true : false}
+                        anchorEl={anchorEl}
+                        onClose={this.closePopover}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'right'
+                        }}
+                        transformOrigin={{
+                          vertical: 52,
+                          horizontal: 'left'
+                        }}>
+                        {showNoteSize && (
+                          <div className={classes.popoverContent}>
+                            <TextField
+                              margin="normal"
+                              InputLabelProps={{ shrink: true }}
+                              label="Note Height"
+                              type="number"
+                              value={editableNote.height}
+                              onChange={this.handleNumberChange('height')}
+                            />
+                            <TextField
+                              margin="normal"
+                              InputLabelProps={{ shrink: true }}
+                              label="Note Width"
+                              type="number"
+                              value={editableNote.width}
+                              onChange={this.handleNumberChange('width')}
+                            />
+                          </div>
+                        )}
+                        {showStyle && (
+                          <div className={classes.popoverContent}>
+                            <FormControl
+                              component="fieldset"
+                              className={classes.formControl}>
+                              <FormLabel component="legend">Style</FormLabel>
+                              <RadioGroup
+                                row
+                                aria-label="Style"
+                                name="style"
+                                className={classes.radioGroup}
+                                value={editableNote.style}
+                                onChange={this.styleChanged}>
+                                <FormControlLabel
+                                  value="card"
+                                  control={<Radio />}
+                                  label="Card"
+                                />
+                                <FormControlLabel
+                                  value="sticky"
+                                  control={<Radio />}
+                                  label="Sticky"
+                                />
+                                <FormControlLabel
+                                  value="pin"
+                                  control={<Radio />}
+                                  label="Pin"
+                                />
+                              </RadioGroup>
+                            </FormControl>
+                            <SketchPicker
+                              className={classes.colorPicker}
+                              color={editableNote.background}
+                              colors={pickerColors}
+                              onChangeComplete={this.colorChanged}
+                            />
+                          </div>
+                        )}
+                        {showText && (
+                          <div className={classes.popoverContent}>
+                            <TextField
+                              margin="normal"
+                              InputLabelProps={{
+                                shrink: true
+                              }}
+                              label="Font Size"
+                              type="number"
+                              value={editableNote.font_size}
+                              onChange={this.handleNumberChange('font_size')}
+                            />
+                            <SketchPicker
+                              className={classes.colorPicker}
+                              color={editableNote.color}
+                              colors={pickerColors}
+                              onChangeComplete={this.colorTextChanged}
+                            />
+                          </div>
+                        )}
+                      </Popover>
+                    </div>
+                  </Grow>
+                )}
+              </div>
+            </Grow>
+          </div>
+        </Rnd>
+        {confirmDelete && (
+          <ConfirmDialog
+            text="Delete this note?"
+            handleClose={this.confirmClose}
+            handleConfirm={this.confirmDelete}
+          />
+        )}
+      </div>
     );
   }
 }
@@ -499,7 +521,8 @@ class Note extends React.PureComponent {
 Note.propTypes = {
   classes: PropTypes.object.isRequired,
   note: PropTypes.object.isRequired,
-  updateNote: PropTypes.func.isRequired
+  updateNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(Note);
