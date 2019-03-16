@@ -75,7 +75,7 @@ ARG BUILD_VERSION
 # Labels
 LABEL \
     maintainer="Timmo <contact@timmo.xyz>" \
-    org.label-schema.description="Lorem ipsum" \
+    org.label-schema.description="A highly customisable noteboard" \
     org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.name="Noteboard" \
     org.label-schema.schema-version="1.0" \
