@@ -19,7 +19,12 @@
 
 [![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
 
-Lorem ipsum
+A highly customisable noteboard.
+
+## Screenshots
+
+![Screenshot Midnight][screenshot-midnight]
+![Screenshot Corkboard][screenshot-corkboard]
 
 ## Features
 
@@ -66,4 +71,6 @@ Lorem ipsum
 [pulls-shield]: https://img.shields.io/docker/pulls/timmo001/noteboard.svg
 [releases-shield]: https://img.shields.io/github/release/timmo001/noteboard.svg
 [releases]: https://github.com/timmo001/noteboard/releases
+[screenshot-corkboard]: https://raw.githubusercontent.com/timmo001/noteboard/master/docs/resources/screenshot-corkboard.png
+[screenshot-midnight]: https://raw.githubusercontent.com/timmo001/noteboard/master/docs/resources/screenshot-midnight.png
 [version-shield]: https://images.microbadger.com/badges/version/timmo001/noteboard.svg
