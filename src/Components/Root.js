@@ -1,6 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-import SunCalc from 'suncalc';
 import PropTypes from 'prop-types';
 import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client';
@@ -51,21 +49,11 @@ class Root extends React.PureComponent {
   };
 
   componentDidMount = () => {
-    navigator.geolocation &&
-      navigator.geolocation.getCurrentPosition(this.setTheme);
+    let id = localStorage.getItem('theme');
+    if (!id) id = 10;
+    this.props.setTheme(id);
     this.login();
   };
-
-  setTheme = position =>
-    moment(
-      SunCalc.getTimes(
-        new Date(),
-        position.coords.latitude,
-        position.coords.longitude
-      ).sunset
-    ).isBefore(moment())
-      ? this.props.setTheme(1)
-      : this.props.setTheme(0);
 
   login = (data = undefined) => {
     process.env.NODE_ENV === 'development' && console.log('login:', data);
@@ -203,7 +191,7 @@ class Root extends React.PureComponent {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, theme, themes, setTheme } = this.props;
     const {
       snackMessage,
       loginAttempted,
@@ -218,11 +206,14 @@ class Root extends React.PureComponent {
           <CircularProgress className={classes.progress} />
         ) : loggedIn ? (
           <Notes
+            theme={theme}
+            themes={themes}
             notes={notes}
             logout={this.logout}
             addNote={this.addNote}
             updateNote={this.updateNote}
             deleteNote={this.deleteNote}
+            setTheme={setTheme}
           />
         ) : (
           <Login login={this.login} loginError={loginError} />

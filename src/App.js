@@ -3,65 +3,79 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import grey from '@material-ui/core/colors/grey';
 import red from '@material-ui/core/colors/red';
+import amber from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import clone from './Components/Common/clone';
 import mapToColor from './Components/Common/mapToColor';
 import Root from './Components/Root';
+import corkboard from './resources/corkboard.png';
 import 'typeface-roboto';
 import '@mdi/font/css/materialdesignicons.min.css';
 import './App.css';
 
 var themes = [
   {
-    id: 1,
+    id: 10,
+    name: 'Midnight',
+    palette: {
+      type: 'dark',
+      primary: pink,
+      secondary: pink,
+      background: '#2c3039',
+      main: '#2c3039',
+      error: red
+    }
+  },
+  {
+    id: 20,
     name: 'Light',
     palette: {
       type: 'light',
       primary: blueGrey,
       secondary: grey,
       background: grey[100],
-      card: grey[200],
+      main: grey[200],
       error: red
     }
   },
   {
-    id: 2,
-    name: 'Midnight',
+    id: 30,
+    name: 'Corkboard',
     palette: {
       type: 'dark',
-      primary: pink,
-      secondary: pink,
-      background: '#2C3039',
-      card: grey[800],
+      primary: amber,
+      secondary: amber,
+      background: `url(${corkboard}) 0px repeat`,
+      main: grey[800],
       error: red
     }
   }
 ];
 
-const date = new Date();
-const defaultPalette =
-  date.getHours() <= 6 || date.getHours() >= 17
-    ? createMuiTheme({
-        palette: themes[0].palette,
-        typography: { useNextVariants: true }
-      })
-    : createMuiTheme({
-        palette: themes[1].palette,
-        typography: { useNextVariants: true }
-      });
+const defaultPalette = createMuiTheme({
+  palette: themes[0].palette,
+  typography: { useNextVariants: true }
+});
 
 class App extends React.PureComponent {
   state = {
     theme: defaultPalette
   };
 
-  setTheme = id =>
+  setTheme = id => {
+    id = Number(id);
+    let theme = themes.find(t => t.id === id);
+    console.log(id, theme);
+    if (!theme) theme = themes[0];
+    // console.log(id, theme);
     this.setState({
       theme: createMuiTheme({
-        palette: id ? themes[id].palette : themes[0].palette,
+        palette: theme.palette,
         typography: { useNextVariants: true }
       })
     });
+    localStorage.setItem('theme', id);
+  };
 
   addTheme = theme => {
     const base = themes.find(

@@ -52,7 +52,7 @@ const styles = theme => ({
     width: 256
   },
   card: {
-    background: theme.palette.card
+    background: theme.palette.main
   },
   cardContent: {
     paddingTop: theme.spacing.unit / 2,
@@ -106,11 +106,11 @@ class Login extends React.PureComponent {
     this.setState(
       {
         email: email ? email : '',
-        password: password ? password : '',
-        createAccount: localStorage.getItem('been_here') ? false : true
+        password: password ? password : ''
+        // createAccount: localStorage.getItem('been_here') ? false : true
       },
       () => {
-        localStorage.setItem('been_here', true);
+        // localStorage.setItem('been_here', true);
         this.handleValidation(invalid => {
           !invalid &&
             localStorage.getItem('should_login') &&
