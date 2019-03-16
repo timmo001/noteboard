@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 import grey from '@material-ui/core/colors/grey';
@@ -39,14 +38,15 @@ var themes = [
   }
 ];
 
+const date = new Date();
 const defaultPalette =
-  moment().hour >= 22 || moment().hour <= 4
+  date.getHours() <= 6 || date.getHours() >= 17
     ? createMuiTheme({
-        palette: themes[1].palette,
+        palette: themes[0].palette,
         typography: { useNextVariants: true }
       })
     : createMuiTheme({
-        palette: themes[0].palette,
+        palette: themes[1].palette,
         typography: { useNextVariants: true }
       });
 
