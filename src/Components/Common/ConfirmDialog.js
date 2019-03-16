@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const styles = theme => ({
   root: {
     minWidth: 320,
-    background: theme.palette.background
+    background: theme.palette.main
   }
 });
 

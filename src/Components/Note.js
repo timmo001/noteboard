@@ -133,7 +133,7 @@ const styles = theme => ({
     alignItems: 'center',
     padding: theme.spacing.unit,
     zIndex: 10000,
-    background: theme.palette.background
+    background: theme.palette.main
   }
 });
 
