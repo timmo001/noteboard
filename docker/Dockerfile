@@ -1,4 +1,4 @@
-ARG BUILD_FROM=alpine:3.9
+ARG BUILD_FROM=alpine:3.9.2
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -20,6 +20,9 @@ COPY rootfs /
 # Build arch argument
 ARG BUILD_ARCH=amd64
 
+# SHA to clone
+ARG BUILD_SHA=master
+
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
@@ -33,16 +36,15 @@ RUN \
     && echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
     \
     && apk add --no-cache --virtual .build-dependencies \
-        curl=7.63.0-r0 \
+        curl=7.64.0-r1 \
         git=2.20.1-r0 \
-        tar=1.31-r0 \
+        tar=1.32-r0 \
         yarn=1.12.3-r0 \
     \
     && apk add --no-cache \
-        apk-tools=2.10.3-r1 \
         bash=4.4.19-r1 \
-        busybox=1.29.3-r10 \
-        ca-certificates=20190108-r0 \
+        curl=7.64.0-r1 \
+        jq=1.6-r0 \
         nginx=1.14.2-r0 \
         nodejs-current=11.3.0-r0 \
         tzdata=2018i-r0 \
@@ -54,8 +56,9 @@ RUN \
     \
     && mkdir -p /etc/fix-attrs.d \
     \
-    && git clone --branch "v0.5.0" --depth=1 \
-        "https://github.com/timmo001/noteboard-api.git" /opt/api \
+    && git clone --branch "${BUILD_SHA}" --depth=1 \
+        "https://github.com/timmo001/noteboard.git" /tmp/noteboard \
+    && mv /tmp/noteboard/api /opt/api \
     \
     && cd /opt/api \
     && yarn install \
