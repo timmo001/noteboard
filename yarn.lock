@@ -8487,7 +8487,7 @@ react-moment@0.8.4:
   resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-0.8.4.tgz#18eb59e1541c8b216353e23c21e9db50e42e2edb"
   integrity sha512-QhI19OcfhiAn60/O6bMR0w8ApXrPFCjv6+eV0I/P9/AswzjgEAx4L7VxMBCpS/jrythLa12Q9v88req+ys4YpA==
 
-react-rnd@^9.1.2:
+react-rnd@9.1.2:
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/react-rnd/-/react-rnd-9.1.2.tgz#3b3be3294a4866d7bdd702ec4743fb19a906c4d8"
   integrity sha512-XmJVy/xjbSttpKZynnB1WM3woWhDjb719iOIRRvPkEf61Trw4DBJS38VHxIsBClNX6JXCbZFi6yUXC1SxKIkDQ==
