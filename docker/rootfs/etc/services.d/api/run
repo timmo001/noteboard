@@ -1,19 +1,15 @@
 #!/usr/bin/with-contenv bash
 # ==============================================================================
-# Starts server to serve the API
+# Starts server to serve the app
 # ==============================================================================
-echo 'Run API..'
+echo 'Run app..'
 
 # shellcheck disable=SC2164
-cd /opt/api
+cd /opt/noteboard
 
-DB_PATH=/data/noteboard.db
-CONFIG_PATH=/data/config.json
 SSL_PATH_CERT=/ssl/%SSL_CERTFILE%
 SSL_PATH_KEY=/ssl/%SSL_KEYFILE%
 
-export DB_PATH
-export CONFIG_PATH
 export SSL_PATH_CERT
 export SSL_PATH_KEY
 
