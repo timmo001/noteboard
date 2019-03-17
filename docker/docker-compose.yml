@@ -8,6 +8,7 @@ services:
       SSL_CERTFILE: fullchain.pem
       SSL_KEYFILE: privkey.pem
     ports:
+      - 3345:3345
       - 8345:8345
     volumes:
       - ~/ssl/fullchain.pem:/ssl/fullchain.pem

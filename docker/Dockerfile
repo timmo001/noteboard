@@ -58,14 +58,16 @@ RUN \
     && mkdir -p /etc/fix-attrs.d \
     \
     && git clone --branch "${BUILD_SHA}" --depth=1 \
-        "https://github.com/timmo001/noteboard.git" /opt/api \
+        "https://github.com/timmo001/noteboard.git" /tmp/noteboard \
+    && mv /tmp/noteboard/api /opt/api \
     \
     && cd /opt/api \
     && yarn install \
+    && mkdir -p /data/db \
+    && ln -s /data/db /opt/api/data \
     \
     && yarn cache clean \
     && apk del --purge .build-dependencies \
-    && rm -fr /opt/api/.* /opt/api/docs /opt/api/docs \
     && rm -fr /tmp/*
 
 # Entrypoint & CMD
