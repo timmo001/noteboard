@@ -31,6 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
+// Host the app on a seperate path
+app.use('/app', express.static(app.get('webapp')));
 
 // Set up Plugins and providers
 app.configure(express.rest());

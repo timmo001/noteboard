@@ -55,9 +55,7 @@ RUN \
     && mkdir -p /etc/fix-attrs.d \
     \
     && git clone --branch "${BUILD_SHA}" --depth=1 \
-        "https://github.com/timmo001/noteboard.git" /tmp/noteboard \
-    && rm -f /tmp/noteboard/api/public/* \
-    && mv /tmp/noteboard/api /opt/noteboard \
+        "https://github.com/timmo001/noteboard.git" /opt/noteboard \
     \
     && cd /opt/noteboard \
     && yarn install \
@@ -67,7 +65,7 @@ RUN \
     && rm -fr /tmp/*
 
 # Copy app
-COPY build /opt/noteboard/public
+COPY build /opt/noteboard/webapp
 
 # Entrypoint & CMD
 ENTRYPOINT ["/init"]
