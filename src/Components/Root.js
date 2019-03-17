@@ -87,7 +87,7 @@ class Root extends React.PureComponent {
         app.set('user', user);
         process.env.NODE_ENV === 'development' &&
           console.log('User:', app.get('user'));
-        this.setState({ loggedIn: true });
+        this.setState({ loggedIn: true, userId: app.get('user')._id });
         this.getNotes();
       })
       .catch(e => {
@@ -118,9 +118,11 @@ class Root extends React.PureComponent {
   };
 
   addToNotes = note => {
-    const notes = clone(this.state.notes);
-    notes.push(note);
-    this.setState({ notes });
+    if (note.userId !== this.state.userId) {
+      const notes = clone(this.state.notes);
+      notes.push(note);
+      this.setState({ notes });
+    }
   };
 
   addNote = () => {
@@ -156,9 +158,6 @@ class Root extends React.PureComponent {
     const id = clone(note._id);
     notes[notes.findIndex(n => n._id === id)] = noteIn;
     this.setState({ notes });
-    delete note._id;
-    delete note.user;
-    delete note.userId;
     process.env.NODE_ENV === 'development' &&
       console.log('Update Note:', updateServer, id, note);
     if (updateServer)
