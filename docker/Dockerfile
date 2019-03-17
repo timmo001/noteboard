@@ -9,7 +9,7 @@ ENV \
     PS1="$(whoami)@$(hostname):$(pwd)$ " \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES=1 \
-    TERM="xterm"
+    TERM="xterm-256color"
 
 # Copy root filesystem
 COPY rootfs /
@@ -33,7 +33,6 @@ RUN \
     && echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
     \
     && apk add --no-cache --virtual .build-dependencies \
-        curl=7.64.0-r1 \
         git=2.20.1-r0 \
         tar=1.32-r0 \
         yarn=1.12.3-r0 \
@@ -46,7 +45,9 @@ RUN \
         nodejs-current=11.3.0-r0 \
         tzdata=2018i-r0 \
     \
-    && if [ "${BUILD_ARCH}" = "i386" ]; then S6_ARCH="x86"; else S6_ARCH="${BUILD_ARCH}"; fi \
+    && S6_ARCH="${BUILD_ARCH}" \
+    && if [ "${BUILD_ARCH}" = "i386" ]; then S6_ARCH="x86"; fi \
+    && if [ "${BUILD_ARCH}" = "armv7" ]; then S6_ARCH="arm"; fi \
     \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v1.22.0.0/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxvf - -C / \
