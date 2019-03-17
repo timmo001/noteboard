@@ -65,7 +65,6 @@ class App extends React.PureComponent {
   setTheme = id => {
     id = Number(id);
     let theme = themes.find(t => t.id === id);
-    console.log(id, theme);
     if (!theme) theme = themes[0];
     // console.log(id, theme);
     this.setState({
