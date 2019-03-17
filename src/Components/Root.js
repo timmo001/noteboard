@@ -30,7 +30,8 @@ const styles = theme => ({
 
 const app = feathers();
 const socket = io(
-  `${window.location.protocol}//${window.location.hostname}:${process.env
+  `${process.env.REACT_APP_API_PROTOCOL || window.location.protocol}//${process
+    .env.REACT_APP_API_HOSTNAME || window.location.hostname}:${process.env
     .REACT_APP_API_PORT || 3345}`
 );
 
