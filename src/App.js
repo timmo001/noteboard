@@ -22,7 +22,7 @@ var themes = [
       primary: pink,
       secondary: pink,
       background: '#2c3039',
-      main: '#2c3039',
+      main: '#363a43',
       error: red
     }
   },
