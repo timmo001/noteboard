@@ -31,7 +31,7 @@ const styles = theme => ({
 const app = feathers();
 const socket = io(
   `${window.location.protocol}//${window.location.hostname}:${process.env
-    .REACT_APP_API_PORT || 8345}`
+    .REACT_APP_API_PORT || 3345}`
 );
 
 // Setup the transport (Rest, Socket, etc.) here
