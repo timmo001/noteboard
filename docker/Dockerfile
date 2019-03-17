@@ -11,9 +11,6 @@ ENV \
     S6_CMD_WAIT_FOR_SERVICES=1 \
     TERM="xterm"
 
-# Copy app
-COPY build /opt/panel
-
 # Copy root filesystem
 COPY rootfs /
 
@@ -58,14 +55,18 @@ RUN \
     \
     && git clone --branch "${BUILD_SHA}" --depth=1 \
         "https://github.com/timmo001/noteboard.git" /tmp/noteboard \
-    && mv /tmp/noteboard/api /opt/api \
+    && rm -f /tmp/noteboard/api/public/* \
+    && mv /tmp/noteboard/api /opt/noteboard \
     \
-    && cd /opt/api \
+    && cd /opt/noteboard \
     && yarn install \
     \
     && yarn cache clean \
     && apk del --purge .build-dependencies \
     && rm -fr /tmp/*
+
+# Copy app
+COPY build /opt/noteboard/public
 
 # Entrypoint & CMD
 ENTRYPOINT ["/init"]

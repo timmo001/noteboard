@@ -30,8 +30,11 @@ const styles = theme => ({
 
 const app = feathers();
 const socket = io(
-  `${window.location.protocol}//${window.location.hostname}:${process.env
-    .REACT_APP_API_PORT || 3030}`
+  `${window.location.protocol}//${window.location.hostname}:${
+    process.env.REACT_APP_API_PORT || process.env.NODE_ENV === 'development'
+      ? 8345
+      : window.location.port
+  }`
 );
 
 // Setup the transport (Rest, Socket, etc.) here
