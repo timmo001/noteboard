@@ -14,6 +14,9 @@ ENV \
 # Copy root filesystem
 COPY rootfs /
 
+# Copy app
+COPY build /opt/noteboard
+
 # Build arch argument
 ARG BUILD_ARCH=amd64
 
@@ -55,17 +58,15 @@ RUN \
     && mkdir -p /etc/fix-attrs.d \
     \
     && git clone --branch "${BUILD_SHA}" --depth=1 \
-        "https://github.com/timmo001/noteboard.git" /opt/noteboard \
+        "https://github.com/timmo001/noteboard.git" /opt/api \
     \
-    && cd /opt/noteboard \
+    && cd /opt/api \
     && yarn install \
     \
     && yarn cache clean \
     && apk del --purge .build-dependencies \
+    && rm -fr /opt/api/.* /opt/api/docs /opt/api/docs \
     && rm -fr /tmp/*
-
-# Copy app
-COPY build /opt/noteboard/webapp
 
 # Entrypoint & CMD
 ENTRYPOINT ["/init"]
