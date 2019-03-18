@@ -44,7 +44,7 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
-    "eslint": "5.15.2",
+    "eslint": "5.15.3",
     "feathers-memory": "3.0.2",
     "mocha": "6.0.2",
     "nodemon": "1.18.10",
