@@ -21,20 +21,17 @@
 
 A highly customisable noteboard.
 
-## Screenshots
-
-![Screenshot Midnight][screenshot-midnight]
-![Screenshot Corkboard][screenshot-corkboard]
-
 ## Features
 
-Lorem ipsum
+- Fully customisable UI
+- Per user notes
+- Material Design
+- Multiple note styles avaliable
+- More to come!
 
 ## Docs
 
-<!-- Setup and configuration is available [here][setup-docs] -->
-
-Lorem ipsum
+Setup and configuration is available [here][setup-docs].
 
 ## Links
 
@@ -46,7 +43,8 @@ Lorem ipsum
 
 ## Screenshots
 
-Lorem ipsum
+![Screenshot Midnight][screenshot-midnight]
+![Screenshot Corkboard][screenshot-corkboard]
 
 ## License
 
@@ -75,6 +73,7 @@ SOFTWARE.
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
 [armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
+[banner]: https://raw.githubusercontent.com/timmo001/noteboard/master/docs/resources/banner.png
 [buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg
 [buymeacoffee]: https://www.buymeacoffee.com/timmo
 [code_of_conduct]: https://github.com/timmo001/noteboard/blob/master/.github/CODE_OF_CONDUCT.md
@@ -97,4 +96,5 @@ SOFTWARE.
 [releases]: https://github.com/timmo001/noteboard/releases
 [screenshot-corkboard]: https://raw.githubusercontent.com/timmo001/noteboard/master/docs/resources/screenshot-corkboard.png
 [screenshot-midnight]: https://raw.githubusercontent.com/timmo001/noteboard/master/docs/resources/screenshot-midnight.png
+[setup-docs]: https://timmo.dev/noteboard/setup
 [version-shield]: https://images.microbadger.com/badges/version/timmo001/noteboard.svg
