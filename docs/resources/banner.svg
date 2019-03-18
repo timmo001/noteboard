@@ -9,14 +9,14 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   width="64"
-   height="32"
+   width="48"
+   height="24"
    id="svg93"
    sodipodi:docname="banner.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
    inkscape:export-filename="/home/aidan/projects/js/noteboard/docs/resources/banner.png"
-   inkscape:export-xdpi="540"
-   inkscape:export-ydpi="540">
+   inkscape:export-xdpi="720"
+   inkscape:export-ydpi="720">
   <metadata
      id="metadata97">
     <rdf:RDF>
@@ -25,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -39,12 +39,12 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1018"
+     inkscape:window-height="1020"
      id="namedview95"
      showgrid="false"
      inkscape:zoom="14.329961"
-     inkscape:cx="25.230966"
-     inkscape:cy="24"
+     inkscape:cx="28.65108"
+     inkscape:cy="3.2897765"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -57,7 +57,8 @@
        x2="42.536949"
        y2="54.490662"
        gradientUnits="userSpaceOnUse"
-       id="color-1">
+       id="color-1"
+       gradientTransform="translate(0,-5.8304706)">
       <stop
          offset="0"
          stop-color="#000000"
@@ -229,15 +230,15 @@
      text-anchor="none"
      style="font-family:none;mix-blend-mode:normal;fill:none;fill-rule:nonzero;stroke:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-dashoffset:0"
      id="g91"
-     transform="translate(-1.1505466,-7.8023553)">
+     transform="translate(-1.8483852,-6.0326145)">
     <path
-       d="m 5.1097946,38.939445 c -1.5486488,0 -2.8040752,-0.847138 -2.8040752,-1.892136 V 10.557401 c 0,-1.0449977 1.2554264,-1.8921355 2.8040752,-1.8921355 H 61.191299 c 1.548648,0 2.804075,0.8471378 2.804075,1.8921355 v 26.489908 c 0,1.044998 -1.255427,1.892136 -2.804075,1.892136 z"
+       d="m 4.9392942,29.032614 c -1.1547778,0 -2.0909091,-0.615608 -2.0909091,-1.375 V 8.4076136 c 0,-0.7593918 0.9361313,-1.3749991 2.0909091,-1.3749991 H 46.757475 c 1.154778,0 2.09091,0.6156073 2.09091,1.3749991 V 27.657614 c 0,0.759392 -0.936132,1.375 -2.09091,1.375 z"
        id="base 1 5 1"
        stroke-miterlimit="10"
        inkscape:connector-curvature="0"
-       style="fill:#283593;stroke-width:1.15170443;stroke-miterlimit:10;fill-opacity:1" />
+       style="fill:#283593;fill-opacity:1;stroke-width:0.84779125;stroke-miterlimit:10" />
     <path
-       d="m 4.42097,17.66456 c 0,-0.21313 0.07339,-0.40911 0.19627,-0.56407 l -9.8e-4,-0.02746 0.0244,-8.7e-4 c 0.16661,-0.19356 0.41341,-0.31612 0.68883,-0.31612 0.25088,0 0.47801,0.10169 0.64242,0.2661 L 5.97429,17.02454 18.69938,16.57 42.0339,39.90452 41.246299,38.921393 13.244078,39.209029 5.11931,31.15615 4.6593,18.27797 C 4.51129,18.11634 4.42097,17.901 4.42097,17.66457 Z"
+       d="m 4.42097,11.834089 c 0,-0.213129 0.07339,-0.40911 0.19627,-0.564069 l -9.8e-4,-0.02746 0.0244,-8.7e-4 c 0.16661,-0.19356 0.41341,-0.31612 0.68883,-0.31612 0.25088,0 0.47801,0.10169 0.64242,0.2661 l 0.00238,0.0024 12.72509,-0.45454 16.625562,18.255787 v 0 L 9.0991282,29.03623 5.11931,25.325679 4.6593,12.447499 c -0.14801,-0.16163 -0.23833,-0.37697 -0.23833,-0.6134 z"
        stroke-miterlimit="10"
        id="path56"
        inkscape:connector-curvature="0"
@@ -250,7 +251,8 @@
        inkscape:connector-curvature="0"
        style="fill:none;stroke-width:0;stroke-miterlimit:10" />
     <g
-       id="svg899 2">
+       id="svg899 2"
+       transform="translate(0,-5.8304405)">
       <g
          id="layer1 1">
         <path
@@ -370,13 +372,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:8px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="24.318756"
-       y="26.287706"
+       x="20.201509"
+       y="20.020895"
        id="text910"><tspan
          sodipodi:role="line"
          id="tspan908"
-         x="24.318756"
-         y="26.287706"
-         style="font-size:6.66666651px;fill:#fafafa;fill-opacity:1">Noteboard</tspan></text>
+         x="20.201509"
+         y="20.020895"
+         style="font-size:5.33333349px;fill:#fafafa;fill-opacity:1">Noteboard</tspan></text>
   </g>
 </svg>
