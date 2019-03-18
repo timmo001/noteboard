@@ -28,7 +28,11 @@ A highly customisable noteboard.
 
 ## Features
 
-Lorem ipsum
+- Fully customisable UI
+- Per user notes
+- Material Design
+- Multiple note styles avaliable
+- More to come!
 
 ## Docs
 
