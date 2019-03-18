@@ -64,7 +64,6 @@ RUN \
     && cd /opt/api \
     && yarn install \
     && mkdir -p /data/db \
-    && ln -s /data/db /opt/api/data \
     \
     && yarn cache clean \
     && apk del --purge .build-dependencies \
