@@ -9,8 +9,10 @@ cd /opt/api
 
 SSL_PATH_CERT=/ssl/%SSL_CERTFILE%
 SSL_PATH_KEY=/ssl/%SSL_KEYFILE%
+DB_PATH=/data/db/
 
 export SSL_PATH_CERT
 export SSL_PATH_KEY
+export DB_PATH
 
 exec node src/
