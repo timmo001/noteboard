@@ -21,6 +21,8 @@
 
 A highly customisable noteboard.
 
+![banner][banner]
+
 ## Features
 
 - Fully customisable UI
