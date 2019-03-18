@@ -106,11 +106,11 @@ class Login extends React.PureComponent {
     this.setState(
       {
         email: email ? email : '',
-        password: password ? password : ''
-        // createAccount: localStorage.getItem('been_here') ? false : true
+        password: password ? password : '',
+        createAccount: localStorage.getItem('been_here') ? false : true
       },
       () => {
-        // localStorage.setItem('been_here', true);
+        localStorage.setItem('been_here', true);
         this.handleValidation(invalid => {
           !invalid &&
             localStorage.getItem('should_login') &&
@@ -160,6 +160,12 @@ class Login extends React.PureComponent {
     this.setState({ success: false, loading: true }, () => {
       if (this.state.email) {
         console.log('Create account');
+        const { email, password } = this.state;
+        this.props.createAccount({
+          email,
+          password
+        });
+        setTimeout(() => this.setState({ loading: false }), 1000);
       }
     });
   };
@@ -279,7 +285,7 @@ class Login extends React.PureComponent {
                   {invalid}
                 </Typography>
               )}
-              {process.env.REACT_APP_OVERRIDE_CAN_CREATE_ACCOUNT && (
+              {!process.env.REACT_APP_OVERRIDE_CANNOT_CREATE_ACCOUNT && (
                 <Button onClick={this.toggleCreateAccount}>
                   {createAccount
                     ? 'Already have an account?'
@@ -288,7 +294,7 @@ class Login extends React.PureComponent {
               )}
               <div className={classes.wrapper}>
                 {createAccount &&
-                process.env.REACT_APP_OVERRIDE_CAN_CREATE_ACCOUNT ? (
+                !process.env.REACT_APP_OVERRIDE_CANNOT_CREATE_ACCOUNT ? (
                   <Button
                     className={buttonClassname}
                     disabled={loading}
@@ -320,6 +326,7 @@ class Login extends React.PureComponent {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  createAccount: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   loginError: PropTypes.string
 };
