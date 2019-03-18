@@ -56,6 +56,22 @@ class Root extends React.PureComponent {
     this.login();
   };
 
+  createAccount = data => {
+    process.env.NODE_ENV === 'development' && console.log('account:', data);
+    socket.emit('create', 'users', data, error => {
+      if (error)
+        process.env.NODE_ENV === 'development' &&
+          console.error('Error creating account:', error);
+      else {
+        process.env.NODE_ENV === 'development' &&
+          console.log('Created new account.');
+        this.login({ strategy: 'local', ...data });
+      }
+    });
+
+    setTimeout(() => this.setState({ loginAttempted: true }), 500);
+  };
+
   login = (data = undefined) => {
     process.env.NODE_ENV === 'development' && console.log('login:', data);
     if (!data)
@@ -216,7 +232,11 @@ class Root extends React.PureComponent {
             setTheme={setTheme}
           />
         ) : (
-          <Login login={this.login} loginError={loginError} />
+          <Login
+            createAccount={this.createAccount}
+            login={this.login}
+            loginError={loginError}
+          />
         )}
         <Snackbar
           open={snackMessage.open}
