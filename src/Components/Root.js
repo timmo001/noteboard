@@ -127,18 +127,10 @@ class Root extends React.PureComponent {
     });
     process.env.NODE_ENV === 'development' && console.log('Notes:', notes);
     this.setState({ notes });
-    notesService.on('created', note => this.addToNotes(note));
+    notesService.on('created', () => this.getNotes());
+    notesService.on('removed', () => this.getNotes());
     notesService.on('updated', note => this.updateNote(note, false));
     notesService.on('patched', note => this.updateNote(note, false));
-    notesService.on('removed', note => this.deleteNote(note, false));
-  };
-
-  addToNotes = note => {
-    if (note.userId !== this.state.userId) {
-      const notes = clone(this.state.notes);
-      notes.push(note);
-      this.setState({ notes });
-    }
   };
 
   addNote = () => {
