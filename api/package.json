@@ -1,8 +1,6 @@
 {
-  "name": "noteboard",
-  "description": "Noteboard",
-  "version": "0.0.0",
-  "homepage": "",
+  "name": "noteboard-api",
+  "version": "1.0.0",
   "main": "src",
   "keywords": [
     "feathers"
