@@ -12,8 +12,11 @@
    width="64"
    height="32"
    id="svg93"
-   sodipodi:docname="bannersvg.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+   sodipodi:docname="banner.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:export-filename="/home/aidan/projects/js/noteboard/docs/resources/banner.png"
+   inkscape:export-xdpi="540"
+   inkscape:export-ydpi="540">
   <metadata
      id="metadata97">
     <rdf:RDF>
@@ -22,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,7 +43,7 @@
      id="namedview95"
      showgrid="false"
      inkscape:zoom="14.329961"
-     inkscape:cx="32"
+     inkscape:cx="25.230966"
      inkscape:cy="24"
      inkscape:window-x="0"
      inkscape:window-y="0"
