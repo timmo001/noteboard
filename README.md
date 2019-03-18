@@ -2,11 +2,11 @@
 
 [![GitHub Release][releases-shield]][releases]
 ![Project Stage][project-stage-shield]
-[![License][license-shield]](LICENSE.md)
+[![License][license-shield]][license]
 
 [![GitLab CI][gitlabci-shield]][gitlabci]
 ![Project Maintenance][maintenance-shield]
-[![GitHub Activity][commits-shield]][commits]
+![GitHub Activity][commits-shield]
 
 [![Docker Version][version-shield]][microbadger]
 [![Docker Layers][layers-shield]][microbadger]
@@ -46,6 +46,7 @@ Setup and configuration is available [here][setup-docs].
 ## Screenshots
 
 ![Screenshot Midnight][screenshot-midnight]
+
 ![Screenshot Corkboard][screenshot-corkboard]
 
 ## License
@@ -90,6 +91,7 @@ SOFTWARE.
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
 [layers-shield]: https://images.microbadger.com/badges/image/timmo001/noteboard.svg
 [license-shield]: https://img.shields.io/github/license/timmo001/noteboard.svg
+[license]: https://github.com/timmo001/noteboard/blob/master/LICENSE.md
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2019.svg
 [microbadger]: https://microbadger.com/images/timmo001/noteboard
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-beta-green.svg

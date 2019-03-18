@@ -2,11 +2,11 @@
 
 [![GitHub Release][releases-shield]][releases]
 ![Project Stage][project-stage-shield]
-[![License][license-shield]](LICENSE.md)
+[![License][license-shield]](license)
 
 [![GitLab CI][gitlabci-shield]][gitlabci]
 ![Project Maintenance][maintenance-shield]
-[![GitHub Activity][commits-shield]][commits]
+![GitHub Activity][commits-shield]
 
 [![Docker Version][version-shield]][microbadger]
 [![Docker Layers][layers-shield]][microbadger]
@@ -31,12 +31,6 @@ A highly customisable noteboard.
 - Multiple note styles avaliable
 - More to come!
 
-## Docs
-
-<!-- Setup and configuration is available [here][setup-docs] -->
-
-Lorem ipsum
-
 ## Links
 
 [Support / Discussion][forum]
@@ -48,6 +42,7 @@ Lorem ipsum
 ## Screenshots
 
 ![Screenshot Midnight][screenshot-midnight]
+
 ![Screenshot Corkboard][screenshot-corkboard]
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
