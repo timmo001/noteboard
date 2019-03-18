@@ -64,4 +64,6 @@ markdown_extensions:
 # Pages
 nav:
   - Overview: index.md
+  - Setup: setup.md
+  - Usage: usage.md
   - License: license.md
