@@ -2,6 +2,8 @@
 
 <!-- ## Hassio Add-on
 
+---
+
 If you use Home Assistant's Hassio / HassOS, you can install the app via the
  community add-ons repo.
 
