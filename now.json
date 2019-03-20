@@ -1,0 +1,3 @@
+{
+  "builds": [{ "api": "*.js", "use": "@now/node" }]
+}
