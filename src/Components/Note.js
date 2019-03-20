@@ -392,7 +392,12 @@ class Note extends React.PureComponent {
                       }}
                     />
                   ) : (
-                    <Typography className={classes.noteTextInput}>
+                    <Typography
+                      className={classes.noteTextInput}
+                      style={{
+                        color: note.color || 'rgba(0, 0, 0, 1)',
+                        fontSize: `${note.font_size / 10}em` || '12em'
+                      }}>
                       {ReactHtmlParser(text)}
                     </Typography>
                   )}
