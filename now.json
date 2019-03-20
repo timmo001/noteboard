@@ -2,6 +2,9 @@
   "version": 2,
   "name": "noteboard-api",
   "builds": [
-    { "src": "api/*.js", "use": "@now/node" }
-  ]  
+    { "src": "api/src/index.js", "use": "@now/node" }
+  ],
+  "routes": [
+    { "src": "api/src/(.*)", "dest": "index.js" }
+  ]
 }
