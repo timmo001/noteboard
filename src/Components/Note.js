@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Rnd } from 'react-rnd';
 import { SketchPicker } from 'react-color';
+import MarkdownIt from 'markdown-it';
+import ReactHtmlParser from 'react-html-parser';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -330,6 +332,15 @@ class Note extends React.PureComponent {
       confirmDelete
     } = this.state;
 
+    const text = new MarkdownIt({
+      html: true,
+      xhtmlOut: true,
+      breaks: false,
+      langPrefix: 'language-',
+      linkify: true,
+      typographer: true
+    }).render(note.text);
+
     return (
       <div>
         <Rnd
@@ -366,21 +377,21 @@ class Note extends React.PureComponent {
                   />
                 )}
                 <CardContent className={classes.noteContent}>
-                  <textarea
-                    className={classes.noteTextInput}
-                    value={editable ? editableNote.text : note.text}
-                    disabled={editable ? false : true}
-                    readOnly={editable ? false : true}
-                    onChange={this.changeNoteText}
-                    style={{
-                      color: editable
-                        ? editableNote.color || 'rgba(0, 0, 0, 1)'
-                        : note.color || 'rgba(0, 0, 0, 1)',
-                      fontSize: editable
-                        ? `${editableNote.font_size / 10}em` || '12em'
-                        : `${note.font_size / 10}em` || '12em'
-                    }}
-                  />
+                  {editable ? (
+                    <textarea
+                      className={classes.noteTextInput}
+                      value={editableNote.text}
+                      onChange={this.changeNoteText}
+                      style={{
+                        color: editableNote.color || 'rgba(0, 0, 0, 1)',
+                        fontSize: `${editableNote.font_size / 10}em` || '12em'
+                      }}
+                    />
+                  ) : (
+                    <div className={classes.noteTextInput}>
+                      {ReactHtmlParser(text)}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
