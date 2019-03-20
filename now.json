@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "builds": [{ "src": "api/src/index.js", "use": "@now/node" }]
+  "name": "noteboard-api",
+  "builds": [
+    { "src": "api/*.js", "use": "@now/node" }
+  ]  
 }
