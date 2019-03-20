@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://timmo.dev/noteboard/</loc>
-     <lastmod>2019-03-18</lastmod>
+     <lastmod>2019-03-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://timmo.dev/noteboard/setup/</loc>
-     <lastmod>2019-03-18</lastmod>
+     <lastmod>2019-03-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://timmo.dev/noteboard/usage/</loc>
-     <lastmod>2019-03-18</lastmod>
+     <lastmod>2019-03-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://timmo.dev/noteboard/license/</loc>
-     <lastmod>2019-03-18</lastmod>
+     <lastmod>2019-03-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
