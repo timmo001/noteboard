@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Rnd } from 'react-rnd';
 import { SketchPicker } from 'react-color';
-import MarkdownIt from 'markdown-it';
+import markdownIt from 'markdown-it';
+import emoji from 'markdown-it-emoji';
 import ReactHtmlParser from 'react-html-parser';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
@@ -12,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -332,14 +334,16 @@ class Note extends React.PureComponent {
       confirmDelete
     } = this.state;
 
-    const text = new MarkdownIt({
+    const text = new markdownIt({
       html: true,
       xhtmlOut: true,
       breaks: false,
       langPrefix: 'language-',
       linkify: true,
       typographer: true
-    }).render(note.text);
+    })
+      .use(emoji)
+      .render(note.text);
 
     return (
       <div>
@@ -388,9 +392,9 @@ class Note extends React.PureComponent {
                       }}
                     />
                   ) : (
-                    <div className={classes.noteTextInput}>
+                    <Typography className={classes.noteTextInput}>
                       {ReactHtmlParser(text)}
-                    </div>
+                    </Typography>
                   )}
                 </CardContent>
               </Card>
