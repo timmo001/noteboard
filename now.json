@@ -1,4 +1,4 @@
 {
   "version": 2,
-  "builds": [{ "api": "*.js", "use": "@now/node" }]
+  "builds": [{ "src": "api/*", "use": "@now/node" }]
 }
