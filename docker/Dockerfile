@@ -20,9 +20,6 @@ COPY build /opt/noteboard
 # Build arch argument
 ARG BUILD_ARCH=amd64
 
-# SHA to clone
-ARG BUILD_SHA=master
-
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
@@ -57,7 +54,7 @@ RUN \
     \
     && mkdir -p /etc/fix-attrs.d \
     \
-    && git clone --branch "${BUILD_SHA}" --depth=1 \
+    && git clone --branch "${BUILD_REF}" --depth=1 \
         "https://github.com/timmo001/noteboard.git" /tmp/noteboard \
     && mv /tmp/noteboard/api /opt/api \
     \
