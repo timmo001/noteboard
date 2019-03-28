@@ -27,7 +27,7 @@
     "react-scripts": "2.1.8",
     "react-sound": "1.2.0",
     "socket.io-client": "2.2.0",
-    "superagent": "5.0.0",
+    "superagent": "5.0.2",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
