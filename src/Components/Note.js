@@ -388,7 +388,7 @@ class Note extends React.PureComponent {
                       onChange={this.changeNoteText}
                       style={{
                         color: editableNote.color || 'rgba(0, 0, 0, 1)',
-                        fontSize: `${editableNote.font_size / 10}em` || '12em'
+                        fontSize: `${editableNote.font_size / 10}em` || '10em'
                       }}
                     />
                   ) : (
@@ -396,7 +396,7 @@ class Note extends React.PureComponent {
                       className={classes.noteTextInput}
                       style={{
                         color: note.color || 'rgba(0, 0, 0, 1)',
-                        fontSize: `${note.font_size / 10}em` || '12em'
+                        fontSize: `${note.font_size / 10}em` || '10em'
                       }}
                       component="span">
                       {ReactHtmlParser(text)}

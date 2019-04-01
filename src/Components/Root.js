@@ -144,7 +144,7 @@ class Root extends React.PureComponent {
         background: 'rgba(248, 231, 28, 1)',
         height: 180,
         width: 180,
-        font_size: 12,
+        font_size: 10,
         color: 'rgba(0, 0, 0, 1)',
         text: 'New Note',
         style: 'card'
