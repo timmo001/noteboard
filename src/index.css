@@ -8,6 +8,10 @@ body {
   overflow: hidden;
 }
 
+*:first-child {
+  margin-top: 0;
+}
+
 a {
   transition: color 0.4s;
   color: #292929;
