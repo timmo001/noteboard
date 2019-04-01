@@ -397,7 +397,8 @@ class Note extends React.PureComponent {
                       style={{
                         color: note.color || 'rgba(0, 0, 0, 1)',
                         fontSize: `${note.font_size / 10}em` || '12em'
-                      }}>
+                      }}
+                      component="span">
                       {ReactHtmlParser(text)}
                     </Typography>
                   )}
