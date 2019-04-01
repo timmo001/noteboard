@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormatPaintIcon from '@material-ui/icons/FormatPaint';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import Note from './Note';
 
 const styles = theme => ({
@@ -106,6 +107,14 @@ class Notes extends React.PureComponent {
                 className={classes.margin}
                 onClick={logout}>
                 <ExitToAppIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Refresh">
+              <IconButton
+                aria-label="Refresh"
+                className={classes.margin}
+                onClick={() => window.location.reload()}>
+                <RefreshIcon fontSize="small" />
               </IconButton>
             </Tooltip>
             <Tooltip title="Theme">
