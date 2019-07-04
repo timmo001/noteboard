@@ -21,7 +21,9 @@
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
     "start": "node src/",
-    "mocha": "mocha test/ --recursive --exit"
+    "mocha": "mocha test/ --recursive --exit",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@feathersjs/authentication": "2.1.16",
@@ -39,7 +41,8 @@
     "helmet": "3.16.0",
     "nedb": "1.8.0",
     "serve-favicon": "2.5.0",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "eslint": "5.16.0",
@@ -48,5 +51,6 @@
     "nodemon": "1.18.11",
     "request": "2.88.0",
     "request-promise": "4.2.4"
-  }
+  },
+  "snyk": true
 }
