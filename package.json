@@ -28,19 +28,23 @@
     "react-sound": "1.2.0",
     "socket.io-client": "2.2.0",
     "superagent": "5.0.2",
-    "typeface-roboto": "0.0.54"
+    "typeface-roboto": "0.0.54",
+    "snyk": "^1.192.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "eslint": "eslint -c .eslintrc.json --color src"
+    "eslint": "eslint -c .eslintrc.json --color src",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "snyk": true
 }
