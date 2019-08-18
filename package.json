@@ -12,7 +12,7 @@
     "@material-ui/core": "3.9.3",
     "@material-ui/icons": "3.0.2",
     "@material-ui/lab": "3.0.0-alpha.30",
-    "@mdi/font": "3.5.95",
+    "@mdi/font": "4.0.96",
     "classnames": "2.2.6",
     "markdown-it": "8.4.2",
     "markdown-it-emoji": "1.4.0",
